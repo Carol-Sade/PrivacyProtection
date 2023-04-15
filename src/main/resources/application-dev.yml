@@ -19,15 +19,15 @@ spring:
 #    pathmatch:
 #      matching-strategy: ant_path_matcher
 
-#server:
-#  port: 444
-#  ssl:
-#    key-store: classpath:lldt.ltd.jks
-#    key-store-password: lk13fmk4a68q9bd
-#    key-store-type: JKS
-#
-#upload:
-#  location: /Users/sade/IdeaProjects/upload/
-#  avatarLocation: /Users/sade/IdeaProjects/avatar/
-#  url: https://localhost:444/upload/
-#  avatarUrl: https://localhost:444/avatar/
+server:
+  port: 444
+  ssl:
+    key-store: classpath:jason21.top.jks
+    key-store-password: 6dncpu83
+    key-store-type: JKS
+
+upload:
+  location: /Users/parsifal/Downloads/PrivacyProtection/upload
+  avatarLocation: /Users/parsifal/Downloads/PrivacyProtection/avatar/
+  url: https://localhost:444/upload/
+  avatarUrl: https://localhost:444/avatar/
