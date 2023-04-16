@@ -13,10 +13,26 @@
         from user
         where username = #{username}
     </select>
+    <select id="getUserByToken" resultType="com.example.privacyprotection.entity.User">
+        select *
+        from user
+        where token = #{token}
+    </select>
     <update id="updateToken">
         update user
         set token=#{token}
         where id = #{id}
+    </update>
+    <update id="login">
+        update user
+        set token=#{token},
+            update_time=now()
+        where id = #{id}
+    </update>
+    <update id="cleanToken">
+        update user
+        set token=#{reset}
+        where token = #{token}
     </update>
     <insert id="register" parameterType="com.example.privacyprotection.entity.User" useGeneratedKeys="true"
             keyProperty="id">

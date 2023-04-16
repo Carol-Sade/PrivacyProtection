@@ -36,19 +36,19 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    // proxy: {
-    //   '/api': {
-    //     target: 'https://lldt.ltd',
-    //     port: 444,
-    //     // 允许跨域
-    //     changeOrigin: true,
-    //     ws: true,
-    //     pathRewrite: {
-    //       '^/api': ''
-    //     }
-    //   }
-    // }
-    before: require('./mock/mock-server.js')
+    proxy: {
+      '/api': {
+        target: 'https://lldt.ltd',
+        port: 444,
+        // 允许跨域
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    },
+    // before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

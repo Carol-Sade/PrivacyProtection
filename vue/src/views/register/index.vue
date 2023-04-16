@@ -4,7 +4,7 @@
              label-position="left">
 
       <div class="title-container">
-        <h3 class="title">基于区块链的隐私保护数据共享系统</h3>
+        <h3 class="title">用户注册</h3>
       </div>
 
       <el-form-item prop="username">
@@ -35,7 +35,7 @@
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter.native="handleRegister"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
@@ -43,7 +43,7 @@
       </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
-                 @click.native.prevent="handleLogin">登录
+                 @click.native.prevent="handleRegister">注册
       </el-button>
 
       <!--      <div class="tips">-->
@@ -52,15 +52,19 @@
       <!--      </div>-->
 
     </el-form>
-    <div @click="$router.push('/register')">注册</div>
+
+
   </div>
 </template>
 
 <script>
 import {validUsername} from '@/utils/validate'
+import {MessageBox} from "element-ui";
+import axios from "axios";
+import request from "@/utils/request";
 
 export default {
-  name: 'Login',
+  name: 'register',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value.length === 0) {
@@ -109,26 +113,53 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
+    handleRegister() {
       this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({path: this.redirect || '/'})
-            this.loading = false
-          }).catch(() => {
-            this.$message.error('用户名或密码错误')
-            this.loading = false
-          })
-        } else {
-          console.log('错误')
-          return false
+          if (valid) {
+            this.loading = true
+            request({
+              method: 'get',
+              url: 'api/user/register',
+              params: {
+                username: this.loginForm.username,
+                password: this.loginForm.password
+              }
+            }).then((res) => {
+              console.log(res)
+              // if (res.code === 1) {
+              //   MessageBox.confirm('注册成功，是否跳转登录页面', '提示', {
+              //     confirmButtonText: '确认',
+              //     cancelButtonText: '取消',
+              //     type: 'warning',
+              //   })
+              // } else {
+              //   MessageBox.confirm('用户名已存在', '提示', {
+              //     confirmButtonText: '重试',
+              //     cancelButtonText: '取消',
+              //     type: 'warning',
+              //   })
+              // }
+              this.loading = false
+            })
+            //   this.$store.dispatch('user/register', this.loginForm).then(() => {
+            //     //this.$router.push({path: this.redirect || '/'})
+            //     MessageBox.confirm('认证失效，请重新登录', '提示', {
+            //       confirmButtonText: '重新登陆',
+            //       cancelButtonText: '取消',
+            //       type: 'warning',
+            //     }).then(() => {
+            //       this.loading = false
+            //     })
+            //   }).catch(() => {
+            //     this.$message.error('用户名或密码错误')
+            //     this.loading = false
+            //   })
+            // } else {
+            //   console.log('错误')
+            //   return false
+          }
         }
-      })
-    },
-    register() {
-      console.log('register')
-      this.$router.push({path: '/register'})
+      )
     }
   }
 }

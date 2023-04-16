@@ -12,4 +12,8 @@ public interface UserService {
     Map<String, Object> register(String username, String password);
 
     Map<String, Object> login(String username, String password);
+
+    Map<String, Object> logout(String token);
+
+    Map<String, Object> getUserInfo(String token);
 }

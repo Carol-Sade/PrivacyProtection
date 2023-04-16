@@ -27,8 +27,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MD5 md5;
 
-    @Value("${upload.avatarLocation}")
-    private String avatarLocation;
+    @Value("${upload.avatarUrl}")
+    private String avatarUrl;
 
     public List<User> getUsers() {
         return userMapper.getUsers();
@@ -37,10 +37,12 @@ public class UserServiceImpl implements UserService {
     public Map<String, Object> register(String username, String password) {
         Map<String, Object> map = new HashMap<>();
         if (userMapper.checkUsername(username) == null) {
-            userMapper.register(username, md5.MD5Encode(password), avatarLocation + "guest.png");
+            userMapper.register(username, md5.MD5Encode(password), "guest.png");
             map.put("code", 1);
+            map.put("msg", "success");
         } else {
-            map.put("code", -1);
+            map.put("code", 0);
+            map.put("msg", "error");
         }
         return map;
     }
@@ -51,7 +53,7 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             if (md5.MD5Encode(password).equals(user.getPassword())) {
                 String token = jwtUtils.getToken(username, password);
-                userMapper.updateToken(user.getId(), token);
+                userMapper.login(user.getId(), token);
                 map.put("code", 1);
                 map.put("token", token);
             } else {
@@ -61,6 +63,29 @@ public class UserServiceImpl implements UserService {
         } else {
             map.put("code", -1);
             map.put("msg", "Error Username");
+        }
+        return map;
+    }
+
+    public Map<String, Object> logout(String token) {
+        Map<String, Object> map = new HashMap<>();
+        String reset = "HadLogout" + token;
+        map.put("code", userMapper.cleanToken(token, reset));
+        return map;
+    }
+
+    public Map<String, Object> getUserInfo(String token) {
+        Map<String, Object> map = new HashMap<>();
+        User user = userMapper.getUserByToken(token);
+        if (user != null) {
+            map.put("id", user.getId());
+            map.put("name", user.getUsername());
+            map.put("avatar", avatarUrl + user.getAvatar());
+            map.put("code", 1);
+            map.put("msg", "success");
+        } else {
+            map.put("code", -1);
+            map.put("msg", "token error");
         }
         return map;
     }

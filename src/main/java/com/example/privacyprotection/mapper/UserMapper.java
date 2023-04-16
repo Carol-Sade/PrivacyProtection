@@ -16,7 +16,13 @@ public interface UserMapper extends BaseMapper<User> {
 
     User getUserByUsername(String username);
 
+    User getUserByToken(String token);
+
     boolean updateToken(Integer id, String token);
+
+    boolean login(Integer id, String token);
+
+    boolean cleanToken(String token, String reset);
 
     boolean register(String username, String password, String avatar);
 }
