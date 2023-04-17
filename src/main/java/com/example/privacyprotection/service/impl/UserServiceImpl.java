@@ -36,14 +36,21 @@ public class UserServiceImpl implements UserService {
 
     public Map<String, Object> register(String username, String password) {
         Map<String, Object> map = new HashMap<>();
-        if (userMapper.checkUsername(username) == null) {
-            userMapper.register(username, md5.MD5Encode(password), "guest.png");
-            map.put("code", 1);
-            map.put("msg", "success");
-        } else {
-            map.put("code", 0);
+        try {
+            User user = userMapper.checkUsername(username);
+            if (user == null) {
+                userMapper.register(username, md5.MD5Encode(password), "guest.png");
+                map.put("code", 1);
+                map.put("msg", "success");
+            } else {
+                map.put("code", 0);
+                map.put("msg", "already exist");
+            }
+        } catch (Exception exception) {
+            map.put("code", -2);
             map.put("msg", "error");
         }
+
         return map;
     }
 
@@ -61,7 +68,7 @@ public class UserServiceImpl implements UserService {
                 map.put("msg", "Error Password");
             }
         } else {
-            map.put("code", -1);
+            map.put("code", -2);
             map.put("msg", "Error Username");
         }
         return map;

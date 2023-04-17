@@ -50,9 +50,9 @@
       <!--        <span style="margin-right:20px;">username: admin</span>-->
       <!--        <span> password: any</span>-->
       <!--      </div>-->
-
+      <div style="float: right ;color: #eee" @click="register">新用户注册</div>
     </el-form>
-    <div @click="$router.push('/register')">注册</div>
+
   </div>
 </template>
 
@@ -127,7 +127,6 @@ export default {
       })
     },
     register() {
-      console.log('register')
       this.$router.push({path: '/register'})
     }
   }

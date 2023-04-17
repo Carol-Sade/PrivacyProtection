@@ -50,7 +50,7 @@
       <!--        <span style="margin-right:20px;">username: admin</span>-->
       <!--        <span> password: any</span>-->
       <!--      </div>-->
-
+      <div style="float: right ;color: #eee" @click="$router.push({path:'/login'})">用户登录</div>
     </el-form>
 
 
@@ -125,38 +125,29 @@ export default {
                 password: this.loginForm.password
               }
             }).then((res) => {
-              console.log(res)
-              // if (res.code === 1) {
-              //   MessageBox.confirm('注册成功，是否跳转登录页面', '提示', {
-              //     confirmButtonText: '确认',
-              //     cancelButtonText: '取消',
-              //     type: 'warning',
-              //   })
-              // } else {
-              //   MessageBox.confirm('用户名已存在', '提示', {
-              //     confirmButtonText: '重试',
-              //     cancelButtonText: '取消',
-              //     type: 'warning',
-              //   })
-              // }
+              if (res.code === 1) {
+                MessageBox.confirm('注册成功，是否跳转登录页面', '提示', {
+                  confirmButtonText: '确认',
+                  cancelButtonText: '取消',
+                  type: 'success'
+                }).then(() => {
+                  this.$router.push({path: '/login'})
+                }).catch(() => {
+                  console.log('取消')
+                })
+              } else if (res.code === 0) {
+                MessageBox.alert('用户名已存在，请重试', '提示', {
+                  confirmButtonText: '确认',
+                  type: 'warning'
+                })
+              } else {
+                MessageBox.alert('错误', '提示', {
+                  confirmButtonText: '确认',
+                  type: 'error'
+                })
+              }
               this.loading = false
             })
-            //   this.$store.dispatch('user/register', this.loginForm).then(() => {
-            //     //this.$router.push({path: this.redirect || '/'})
-            //     MessageBox.confirm('认证失效，请重新登录', '提示', {
-            //       confirmButtonText: '重新登陆',
-            //       cancelButtonText: '取消',
-            //       type: 'warning',
-            //     }).then(() => {
-            //       this.loading = false
-            //     })
-            //   }).catch(() => {
-            //     this.$message.error('用户名或密码错误')
-            //     this.loading = false
-            //   })
-            // } else {
-            //   console.log('错误')
-            //   return false
           }
         }
       )

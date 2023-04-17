@@ -12,7 +12,7 @@ import java.util.Objects;
 public interface UserMapper extends BaseMapper<User> {
     List<User> getUsers();
 
-    Map<String, Objects> checkUsername(String username);
+    User checkUsername(String username);
 
     User getUserByUsername(String username);
 
