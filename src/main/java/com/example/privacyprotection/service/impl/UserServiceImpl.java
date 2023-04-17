@@ -9,11 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.lang.invoke.MethodHandle;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -83,7 +81,8 @@ public class UserServiceImpl implements UserService {
 
     public Map<String, Object> getUserInfo(String token) {
         Map<String, Object> map = new HashMap<>();
-        User user = userMapper.getUserByToken(token);
+        String username = jwtUtils.checkToken(token);
+        User user = userMapper.getUserByUsername(username);
         if (user != null) {
             map.put("id", user.getId());
             map.put("name", user.getUsername());
