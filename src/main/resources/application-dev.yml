@@ -14,6 +14,11 @@ spring:
       enabled: true
       max-file-size: 20MB
       max-request-size: 20MB
+  redis:
+    host: 8.130.79.250
+    port: 6379
+    database: 0
+    password: Sj2000617!
   #  swagger配置
 #  mvc:
 #    pathmatch:

@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.getUserByUsername(username);
         if (user != null) {
             if (md5.MD5Encode(password).equals(user.getPassword())) {
-                String token = jwtUtils.getToken(username, password);
+                String token = jwtUtils.getToken(user.getId(), user.getUsername());
                 userMapper.login(user.getId(), token);
                 map.put("code", 1);
                 map.put("token", token);
@@ -74,15 +74,14 @@ public class UserServiceImpl implements UserService {
 
     public Map<String, Object> logout(String token) {
         Map<String, Object> map = new HashMap<>();
-        String reset = "HadLogout" + token;
-        map.put("code", userMapper.cleanToken(token, reset));
+        map.put("code", jwtUtils.cleanToken(token));
         return map;
     }
 
     public Map<String, Object> getUserInfo(String token) {
         Map<String, Object> map = new HashMap<>();
-        String username = jwtUtils.checkToken(token);
-        User user = userMapper.getUserByUsername(username);
+        int id = jwtUtils.checkToken(token);
+        User user = userMapper.selectById(id);
         if (user != null) {
             map.put("id", user.getId());
             map.put("name", user.getUsername());
