@@ -39,8 +39,8 @@
         <selectKey keyProperty="createTime" resultType="java.util.Date" order="BEFORE">
             SELECT CURRENT_TIMESTAMP
         </selectKey>
-        insert into user(username, password,avatar, create_time)
-        values (#{username}, #{password},#{avatar},#{createTime})
+        insert into user(username, password,avatar, create_time,role)
+        values (#{username}, #{password},#{avatar},#{createTime},0)
     </insert>
     <select id="getUsers" resultType="map">
         select *

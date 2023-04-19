@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
             map.put("id", user.getId());
             map.put("name", user.getUsername());
             map.put("avatar", avatarUrl + user.getAvatar());
+            map.put("role", user.getRole());
             map.put("code", 1);
             map.put("msg", "success");
         } else {

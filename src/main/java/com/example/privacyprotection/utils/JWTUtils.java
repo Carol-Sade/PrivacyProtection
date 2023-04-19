@@ -1,7 +1,6 @@
 package com.example.privacyprotection.utils;
 
 
-import com.example.privacyprotection.service.UserService;
 import io.jsonwebtoken.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -66,6 +64,26 @@ public class JWTUtils {
             return 1;
         } else {
             return 0;
+        }
+    }
+
+    @Test
+    public void printToken() {
+        String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MzAsInVzZXJuYW1lIjoiMTIzNDU2IiwiZXhwIjoxNjgyNTI4OTM5LCJqdGkiOiI2ZTk0NzBiYS1kM2FmLTRlNGItYThiNy1hMDRjYThmMjI4YTAifQ.c-i8V-CrGodcYV1eB2T2RsFX8edAwFYtF3iQkpaor7s";
+//        Object redisCheck = redisTemplate.opsForValue().get(token);
+//        System.out.println(redisCheck);
+//        if (redisCheck == null) {
+//            System.out.println("token is null");
+//        }
+        try {
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(signature).parseClaimsJws(token);
+            Claims claims = claimsJws.getBody();
+            System.out.println(claims.getId());
+            System.out.println(claims.get("id"));
+            System.out.println(claims.get("username"));
+            System.out.println(claims.getExpiration());
+        } catch (Exception e) {
+            System.out.println("jwt error");
         }
     }
 }
