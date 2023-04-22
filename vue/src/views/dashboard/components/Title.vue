@@ -25,7 +25,7 @@ export default {
               type: 'text',
               top: 'center',
               style: {
-                text: '"基于区块链的"\n\n隐私保护数据共享系统',
+                text: '基于区块链的\n\n隐私保护数据共享系统',
                 fontSize: 40,
                 fontFamily: 'monospace',
                 fontWeight: 'lighter',
