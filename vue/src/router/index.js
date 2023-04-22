@@ -174,7 +174,7 @@ export const asyncRoutes = [
       {
         path: 'index',
         component: () => import('@/views/chainCode/index'),
-        meta: {title: '区块链', icon: 'link', roles: ['1']},
+        meta: {title: '区块链管理', icon: 'link', roles: ['2']},
       }
     ]
   },

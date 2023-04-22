@@ -32,21 +32,16 @@ router.beforeEach(async (to, from, next) => {
       const hasRole = store.getters.role
       //
       if (hasRole) {
-        console.log(hasRole)
         next()
       } else {
         try {
-          console.log(hasRole)
           // get user info
           // await store.dispatch('user/getInfo')
           const {role} = await store.dispatch('user/getInfo')
           const accessRoutes = await store.dispatch('permission/generateRoutes', role)
 
           router.options.routes=constantRoutes.concat(accessRoutes)
-
           router.addRoutes(accessRoutes)
-
-          console.log(accessRoutes)
 
           next({...to, replace: true})
         } catch (error) {
