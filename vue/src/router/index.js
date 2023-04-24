@@ -61,6 +61,32 @@ export const constantRoutes = [
   },
 
   {
+    path: '/privacy',
+    component: Layout,
+    //meta: {title: '用户', icon: 'user'},
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/privacy/index.vue'),
+        meta: {title: '隐私保护', icon: 'el-icon-unlock'}
+      }
+    ]
+  },
+
+  {
+    path: '/share',
+    component: Layout,
+    //meta: {title: '用户', icon: 'user'},
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/share/index.vue'),
+        meta: {title: '数据共享', icon: 'el-icon-share'}
+      }
+    ]
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
@@ -153,28 +179,37 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: {title: 'External Link', icon: 'link'}
-      }
-    ]
-  },
 
 ]
 
 export const asyncRoutes = [
   {
-    path: '/chainCode',
+    path: '/blockChain',
+    redirect: '/dashboard',
     component: Layout,
+    meta: {title: '区块链管理', icon: 'blockChain', roles: ['2']},
+    children: [
+      {
+        path: 'upload',
+        component: () => import('@/views/chainCode/upload/index.vue'),
+        meta: {title: '智能合约上传', icon: 'el-icon-upload2', roles: ['2']}
+      },
+      {
+        path: 'option',
+        component: () => import('@/views/chainCode/option/index.vue'),
+        meta: {title: '智能合约操作', icon: 'el-icon-s-operation', roles: ['2']},
+      }
+    ]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    //meta: {title: '用户', icon: 'user'},
     children: [
       {
         path: 'index',
-        component: () => import('@/views/chainCode/index'),
-        meta: {title: '区块链管理', icon: 'link', roles: ['2']},
+        component: () => import('@/views/user/index.vue'),
+        meta: {title: '用户', icon: 'el-icon-user'}
       }
     ]
   },

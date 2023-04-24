@@ -38,7 +38,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'https://lldt.ltd',
+        target: 'https://localhost',
         port: 444,
         // 允许跨域
         changeOrigin: true,
@@ -47,7 +47,7 @@ module.exports = {
           '^/api': ''
         }
       }
-    },
+    }
     // before: require('./mock/mock-server.js')
   },
   configureWebpack: {

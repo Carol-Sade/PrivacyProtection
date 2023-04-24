@@ -1,17 +1,17 @@
 <template>
   <div class="dashboard-container">
-<!--    <div class="dashboard-text">name: {{ name }}</div>-->
+    <!--    <div class="dashboard-text">name: {{ name }}</div>-->
     <Title></Title>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Title from "@/views/dashboard/components/Title";
+import {mapGetters} from 'vuex'
+import Title from '@/views/dashboard/components/Title';
 
 export default {
   name: 'Dashboard',
-  components:{
+  components: {
     Title
   },
   computed: {
@@ -27,6 +27,7 @@ export default {
   &-container {
     margin: 30px;
   }
+
   &-text {
     font-size: 30px;
     line-height: 46px;

@@ -17,7 +17,7 @@
             </el-dropdown-item>
             <el-dropdown-item divided>
               <span style="display:block;">当前用户：{{ name }}</span>
-              <span style="display:block;">身份：{{ role?'管理员':'用户' }}</span>
+              <span style="display:block;">身份：{{ role===2?'管理员':'用户' }}</span>
             </el-dropdown-item>
           </router-link>
           <!--          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">-->

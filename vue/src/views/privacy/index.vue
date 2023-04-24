@@ -1,12 +1,9 @@
 <template>
-<div>
-  chainCode
-</div>
+  <div>Privacy</div>
 </template>
-
 <script>
 export default {
-  name: "chainCode"
+  name: 'Privacy'
 }
 </script>
 
