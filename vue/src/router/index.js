@@ -191,12 +191,12 @@ export const asyncRoutes = [
     children: [
       {
         path: 'upload',
-        component: () => import('@/views/chainCode/upload/index.vue'),
+        component: () => import('@/views/blockChain/upload/index.vue'),
         meta: {title: '智能合约上传', icon: 'el-icon-upload2', roles: ['2']}
       },
       {
         path: 'option',
-        component: () => import('@/views/chainCode/option/index.vue'),
+        component: () => import('@/views/blockChain/option/index.vue'),
         meta: {title: '智能合约操作', icon: 'el-icon-s-operation', roles: ['2']},
       }
     ]

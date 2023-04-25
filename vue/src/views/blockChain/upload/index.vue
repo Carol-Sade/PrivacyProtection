@@ -1,0 +1,175 @@
+<template>
+  <div class="app-container">
+    <el-form ref="form" label-width="120px">
+      <el-form-item label="搜索路径">
+        <el-input v-model="searchPath" placeholder="输入搜索路径"/>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="search">搜索</el-button>
+      </el-form-item>
+    </el-form>
+
+    <el-table v-loading="loading" :data="serverPath" stripe :border="true">
+      <el-table-column prop="type" label="类型" #default="scope">
+        {{ scope.row.type === 'directory' ? '文件夹' : '文件' }}
+      </el-table-column>
+      <el-table-column prop="fileName" label="名称"></el-table-column>
+      <el-table-column prop="timeStamp" label="更新时间"></el-table-column>
+      <el-table-column #default="scope" label="操作" width="200">
+        <el-popconfirm title="确认下载？" confirm-button-text="是" cancel-button-text="否"
+                       @onConfirm="download(scope.row.fileName)">
+          <template #reference>
+            <el-button type="success" plain>下载</el-button>
+          </template>
+        </el-popconfirm>
+        <el-popconfirm title="确认删除？" confirm-button-text="是" cancel-button-text="否"
+                       @onConfirm="del(scope.row.fileName,scope.$index)">
+          <template #reference>
+            <el-button type="danger" plain>删除</el-button>
+          </template>
+        </el-popconfirm>
+      </el-table-column>
+    </el-table>
+  </div>
+</template>
+
+<script>
+import store from "@/store";
+import request from "@/utils/request";
+import {Message, MessageBox} from "element-ui";
+import fi from "element-ui/src/locale/lang/fi";
+
+export default {
+  name: 'Upload',
+  data() {
+    return {
+      searchPath: '',
+      serverPath: [],
+      loading: false,
+      form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      }
+    }
+  },
+  methods: {
+    search() {
+      this.loading = true
+      if (store.getters.role === 2) {
+        request({
+          method: 'post',
+          url: '/api/upload/getPath',
+          params: {
+            path: this.searchPath
+          }
+        }).then((res) => {
+          console.log(res)
+          if (res.code === 1) {
+            this.$notify({
+              title: '成功',
+              message: '搜索成功',
+              type: 'success'
+            })
+            this.serverPath = res.list
+          } else {
+            this.$notify({
+              title: '搜索失败',
+              message: res.msg,
+              type: 'error'
+            })
+          }
+          this.loading = false
+        })
+      }
+    },
+    download(fileName) {
+      if (store.getters.role === 2) {
+        request({
+          method: 'post',
+          url: '/api/upload/download',
+          params: {
+            path: this.searchPath + '/' + fileName
+          }
+        }).then((res) => {
+          console.log(res)
+          if (res.code === 1) {
+            try {
+              const link = document.createElement('a')
+              link.href = res.file
+              // 添加 download 属性并设置文件名
+              link.download = 'file'
+              // 将这个链接添加到页面
+              document.body.appendChild(link)
+              // 模拟鼠标点击事件
+              link.click()
+              // 移除临时元素以保持页面干净
+              document.body.removeChild(link)
+              this.$notify({
+                title: '成功',
+                message: '下载成功',
+                type: 'success'
+              })
+            } catch (e) {
+              this.$notify({
+                title: '下载失败',
+                message: e,
+                type: 'error'
+              })
+            }
+          } else {
+            this.$notify({
+              title: '下载失败',
+              message: res.msg,
+              type: 'error'
+            })
+          }
+        })
+      }
+    },
+    del(fileName, id) {
+      console.log(fileName, id)
+      request({
+        method: 'post',
+        url: '/api/upload/delete',
+        params: {
+          path: this.searchPath + '/' + fileName
+        }
+      }).then((res) => {
+        if (res.code === 1) {
+          this.$notify({
+            title: '成功',
+            message: '删除成功',
+            type: 'success'
+          })
+          this.serverPath.splice(id, 1)
+        } else {
+          this.$notify({
+            title: '失败',
+            message: res.msg,
+            type: 'error'
+          })
+        }
+      })
+    },
+    onSubmit() {
+      this.$message('submit!')
+    },
+    onCancel() {
+      this.$message({
+        message: 'cancel!',
+        type: 'warning'
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

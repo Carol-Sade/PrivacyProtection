@@ -32,7 +32,7 @@ server:
     key-store-type: JKS
 
 upload:
-  location: /Users/parsifal/Downloads/PrivacyProtection/upload
+  location: /Users/parsifal/Downloads/PrivacyProtection/upload/
   avatarLocation: /Users/parsifal/Downloads/PrivacyProtection/avatar/
   url: https://localhost:444/upload/
   avatarUrl: https://localhost:444/avatar/
