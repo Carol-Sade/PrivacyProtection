@@ -10,16 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.FileInputStream;
 
-import java.io.InputStream;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @RestController
@@ -38,7 +35,7 @@ public class UploadController {
     private String url;
 
     @PostMapping("upload")
-    public Map<String, Object> upload(@RequestParam MultipartFile multipartFile, @RequestParam String path) throws JSchException {
+    public Map<String, Object> upload(@RequestParam("file") MultipartFile multipartFile, @RequestParam String path) throws JSchException {
         Map<String, Object> map = new HashMap<>();
 
         JSch jsch = new JSch();
@@ -152,8 +149,8 @@ public class UploadController {
     public Map<String, Object> getPath(@RequestParam String path) throws JSchException {
         Map<String, Object> map = new HashMap<>();
 
-        Session session = null;
-        ChannelSftp sftp = null;
+        Session session;
+        ChannelSftp sftp;
 
         JSch jsch = new JSch();
         session = jsch.getSession(username, host, port);
@@ -232,88 +229,8 @@ public class UploadController {
         return map;
     }
 
-    @Test
-    public void test() throws JSchException {
-        Map<String, Object> map = new HashMap<>();
-
-        Session session = null;
-        ChannelSftp sftp = null;
-
-        JSch jsch = new JSch();
-        session = jsch.getSession(username, host, port);
-
-        // 使用密码登录
-        session.setPassword(password);
-
-        Properties config = new Properties();
-        config.put("StrictHostKeyChecking", "no");
-        session.setConfig(config);
-        session.connect();
-
-        sftp = (ChannelSftp) session.openChannel("sftp");
-        sftp.connect();
-
-        try {
-            Vector<ChannelSftp.LsEntry> files = sftp.ls("/opt");
-            List<Map<String, Object>> fileItems = new ArrayList<>();
-            List<Map<String, Object>> dirItems = new ArrayList<>();
-            for (ChannelSftp.LsEntry entry : files) {
-                /* 如果是文件 */
-                if (!entry.getAttrs().isDir()) {
-                    /* 获取文件名和时间戳 */
-                    String fileName = entry.getFilename();
-                    long lTimestamp = entry.getAttrs().getMTime() * 1000L;
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-                    /* 将时间戳转换成字符串格式 */
-                    Date date = new Date(lTimestamp);
-                    String sTimestamp = sdf.format(date);
-
-                    /* 将文件名和时间添加到 map 中 */
-                    Map<String, Object> fileInfo = new HashMap<>();
-                    fileInfo.put("fileName", fileName);
-                    fileInfo.put("timeStamp", sTimestamp);
-                    fileInfo.put("type", "file");
-                    fileItems.add(fileInfo);
-                } else {
-                    String fileName = entry.getFilename();
-                    if (Objects.equals(entry.getFilename(), ".") || Objects.equals(entry.getFilename(), "..")) {
-                        continue;
-                    }
-                    long lTimestamp = entry.getAttrs().getMTime() * 1000L;
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-                    /* 将时间戳转换成字符串格式 */
-                    Date date = new Date(lTimestamp);
-                    String sTimestamp = sdf.format(date);
-
-                    /* 将文件名和时间添加到 map 中 */
-                    Map<String, Object> fileInfo = new HashMap<>();
-                    fileInfo.put("fileName", fileName);
-                    fileInfo.put("timeStamp", sTimestamp);
-                    fileInfo.put("type", "directory");
-                    dirItems.add(fileInfo);
-                }
-            }
-            dirItems.addAll(fileItems);
-            map.put("code", 1);
-            map.put("msg", "success");
-            map.put("list", dirItems);
-        } catch (Exception e) {
-            map.put("code", 0);
-            map.put("msg", e.getMessage());
-        } finally {
-            if (sftp != null) {
-                sftp.disconnect();
-            }
-            if (session != null) {
-                session.disconnect();
-            }
-        }
-    }
-
     @PostMapping("getAll")
-    public Map<String, Object> getAll(@RequestParam String path) throws JSchException {
+    public Map<String, Object> getAll(@RequestParam String path) {
         Map<String, Object> map = new HashMap<>();
 
         Session session = null;
