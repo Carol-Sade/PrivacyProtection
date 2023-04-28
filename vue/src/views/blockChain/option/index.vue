@@ -1,10 +1,17 @@
 <template>
-
+  <div class="app-container">
+    <UploadComponent></UploadComponent>
+  </div>
 </template>
 
 <script>
+import UploadComponent from "@/views/blockChain/components/uploadComponent.vue";
+
 export default {
-  name: 'Option'
+  name: 'Option',
+  components: {
+    UploadComponent
+  },
 }
 </script>
 

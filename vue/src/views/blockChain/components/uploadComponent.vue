@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div>
     <el-form ref="form" label-width="120px">
       <el-form-item label="搜索路径">
         <div style="display: flex">
@@ -9,7 +9,7 @@
         </div>
       </el-form-item>
       <el-form-item style="margin: 0">
-        <label>区块链默认路径：{{ defaultPath }}</label>
+        <label @click="changePath">区块链默认路径：{{ defaultPath }}</label>
       </el-form-item>
 
     </el-form>
@@ -37,43 +37,15 @@
       </el-table>
       <el-divider/>
     </div>
-
-    <el-form ref="form" label-width="120px">
-      <el-form-item label="上传路径">
-        <div style="display: flex;">
-          <el-input v-model="uploadPath" placeholder="输入上传路径" style="width: 50%;margin-right: 10px"/>
-          <el-upload
-            ref="upload"
-            action="https://localhost:444/api/upload/upload"
-            :data="{path:uploadPath}"
-            :limit="1"
-            :on-success="uploadSuccess"
-            :on-error="uploadError"
-            :on-change="handleChange"
-            :auto-upload="false"
-          >
-            <template #trigger>
-              <el-button type="primary" plain style="margin-right: 10px;">选择文件</el-button>
-            </template>
-            <el-button type="success" plain @click="submitUpload">上传</el-button>
-          </el-upload>
-        </div>
-        <label>限制上传1个文件，需再次上传的，在上传完毕后删除列表，再重新选择</label>
-      </el-form-item>
-    </el-form>
   </div>
 </template>
 
 <script>
 import store from "@/store";
 import request from "@/utils/request";
-import UploadComponent from "@/views/blockChain/components/uploadComponent";
 
 export default {
-  name: 'Upload',
-  components: {
-    UploadComponent
-  },
+  name: 'UploadComponent',
   data() {
     return {
       searchPath: '/opt',
@@ -116,6 +88,10 @@ export default {
         })
       }
     },
+    changePath() {
+      this.searchPath = this.defaultPath
+      this.search()
+    },
     clean() {
       this.searchPath = ''
       this.serverPath = null
@@ -128,7 +104,7 @@ export default {
           url: '/api/upload/download',
           params: {
             path: this.searchPath + '/' + fileName
-          },
+          }
         }).then((res) => {
           console.log(res)
           if (res.code === 1) {
@@ -173,7 +149,7 @@ export default {
         url: '/api/upload/delete',
         params: {
           path: this.searchPath + '/' + fileName
-        },
+        }
       }).then((res) => {
         if (res.code === 1) {
           this.$notify({
@@ -191,53 +167,9 @@ export default {
         }
       })
       this.loading = false
-    },
-    handleChange(file) {
-      if (this.fileList.length > 1) {
-        const index = this.fileList.indexOf(file)
-        this.fileList.splice(0, index)
-      }
-    },
-    uploadSuccess(res) {
-      if (res.code === 1) {
-        this.$notify({
-          title: '成功',
-          message: '上传成功',
-          type: 'success'
-        })
-      } else {
-        this.$notify({
-          title: '失败',
-          message: res.msg,
-          type: 'error'
-        })
-      }
-    },
-    uploadError(res) {
-      this.$notify({
-        title: '失败',
-        message: res.msg,
-        type: 'error'
-      })
-    },
-    submitUpload() {
-      const uploadComponent = this.$refs.upload
-      uploadComponent.submit()
-      this.searchPath = this.uploadPath
-      this.search()
     }
-  },
-  onSubmit() {
-    this.$message('submit!')
-  },
-  onCancel() {
-    this.$message({
-      message: 'cancel!',
-      type: 'warning'
-    })
   }
 }
-
 </script>
 
 <style scoped>
