@@ -38,7 +38,7 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'https://localhost',
+        target: 'https://localhost:444',
         port: 444,
         // 允许跨域
         changeOrigin: true,

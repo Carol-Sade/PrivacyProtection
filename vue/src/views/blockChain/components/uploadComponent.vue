@@ -51,7 +51,7 @@ export default {
       searchPath: '/opt',
       serverPath: [],
       uploadPath: '',
-      defaultPath: '/opt/gopath/src/github.com/hyperledger/fabric-samples',
+      defaultPath: '/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode',
       fileList: [],
       loading: false
     }

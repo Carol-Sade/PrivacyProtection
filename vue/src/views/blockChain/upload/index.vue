@@ -9,7 +9,7 @@
         </div>
       </el-form-item>
       <el-form-item style="margin: 0">
-        <label>区块链默认路径：{{ defaultPath }}</label>
+        <label @click="changePath">区块链默认路径：{{ defaultPath }}</label>
       </el-form-item>
 
     </el-form>
@@ -79,7 +79,7 @@ export default {
       searchPath: '/opt',
       serverPath: [],
       uploadPath: '',
-      defaultPath: '/opt/gopath/src/github.com/hyperledger/fabric-samples',
+      defaultPath: '/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode',
       fileList: [],
       loading: false
     }
@@ -115,6 +115,10 @@ export default {
           this.loading = false
         })
       }
+    },
+    changePath() {
+      this.searchPath = this.defaultPath
+      this.search()
     },
     clean() {
       this.searchPath = ''
@@ -220,21 +224,12 @@ export default {
         type: 'error'
       })
     },
-    submitUpload() {
+    async submitUpload() {
       const uploadComponent = this.$refs.upload
-      uploadComponent.submit()
+      await uploadComponent.submit()
       this.searchPath = this.uploadPath
       this.search()
     }
-  },
-  onSubmit() {
-    this.$message('submit!')
-  },
-  onCancel() {
-    this.$message({
-      message: 'cancel!',
-      type: 'warning'
-    })
   }
 }
 

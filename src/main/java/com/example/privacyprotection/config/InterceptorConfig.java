@@ -16,11 +16,11 @@ public class InterceptorConfig implements WebMvcConfigurer {
             "/api/**"
     };
     String[] excludePathPatterns = {
-            "/api/user/getUserInfo", "/api/user/login", "/api/user/register", "/api/user/logout", "/api/upload/**"
+            "/api/user/login", "/api/user/register", "/api/user/logout"
     };
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor).addPathPatterns(addPathPatterns).excludePathPatterns(excludePathPatterns);
+        //registry.addInterceptor(authInterceptor).addPathPatterns(addPathPatterns).excludePathPatterns(excludePathPatterns);
     }
 }

@@ -2,7 +2,6 @@ package com.example.privacyprotection.controller;
 
 import com.jcraft.jsch.*;
 
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
