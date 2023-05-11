@@ -1,6 +1,7 @@
 package com.example.privacyprotection.utils;
 
 
+import com.example.privacyprotection.entity.User;
 import io.jsonwebtoken.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -23,13 +26,14 @@ public class JWTUtils {
     private static final long time = 1000 * 60 * 60 * 24 * 7;
     private static final String signature = "jason";
 
-    public String getToken(int id, String username) {
+    public String getToken(User user) {
         JwtBuilder jwtBuilder = Jwts.builder();
         String jwtToken = jwtBuilder
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS256")
-                .claim("id", id)
-                .claim("username", username)
+                .claim("id", user.getId())
+                .claim("username", user.getUsername())
+                .claim("role", user.getRole())
                 .setExpiration(new Date(System.currentTimeMillis() + time))
                 .setId(UUID.randomUUID().toString())
                 .signWith(SignatureAlgorithm.HS256, signature)
@@ -56,6 +60,33 @@ public class JWTUtils {
             return (int) claims.get("id");
         } catch (Exception e) {
             return -1;
+        }
+    }
+
+    public Map<String, Object> checkPermission(String token) {
+        Map<String, Object> map = new HashMap<>();
+        if (token == null) {
+            map.put("code", -1);
+            return map;
+        }
+        Object redisCheck = redisTemplate.opsForValue().get(token);
+        if (redisCheck == null) {
+            map.put("code", -1);
+            return map;
+        }
+        try {
+            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(signature).parseClaimsJws(token);
+            Claims claims = claimsJws.getBody();
+//            System.out.println(claims.getId());
+//            System.out.println(claims.get("username"));
+//            System.out.println(claims.get("password"));
+//            System.out.println(claims.getExpiration());
+            map.put("id", (int) claims.get("id"));
+            map.put("role", (int) claims.get("role"));
+            return map;
+        } catch (Exception e) {
+            map.put("code", -1);
+            return map;
         }
     }
 

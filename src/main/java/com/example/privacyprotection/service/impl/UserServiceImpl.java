@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.getUserByUsername(username);
         if (user != null) {
             if (md5.MD5Encode(password).equals(user.getPassword())) {
-                String token = jwtUtils.getToken(user.getId(), user.getUsername());
+                String token = jwtUtils.getToken(user);
                 userMapper.login(user.getId(), token);
                 map.put("code", 1);
                 map.put("token", token);
