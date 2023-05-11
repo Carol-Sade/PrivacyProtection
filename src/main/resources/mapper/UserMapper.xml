@@ -40,7 +40,7 @@
             SELECT CURRENT_TIMESTAMP
         </selectKey>
         insert into user(username, password,avatar, create_time,role)
-        values (#{username}, #{password},#{avatar},#{createTime},0)
+        values (#{username}, #{password},#{avatar},#{createTime},1)
     </insert>
     <select id="getUsers" resultType="map">
         select *
