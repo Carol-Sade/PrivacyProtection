@@ -12,7 +12,7 @@ public class File {
     @Id
     private Integer id;
     private String fileName;
-    private Integer fileOwnerId;
+    private Integer userId;
     private String fileDescribe;
     private Integer fileState;
     private Integer fileType;

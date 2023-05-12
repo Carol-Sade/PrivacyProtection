@@ -34,7 +34,7 @@ public class FeedbackController {
             map.put("msg", "success");
         } else {
             map.put("code", 0);
-            map.put("msg", "file");
+            map.put("msg", "fail");
         }
         return map;
     }
