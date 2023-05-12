@@ -11,12 +11,13 @@
     </select>
 
     <select id="getUserCollections" resultType="com.example.privacyprotection.VO.CollectVO">
-        SELECT file.id,
+        SELECT user_collect.id,
                file.file_name,
-               file.user_id,
                `user`.username,
                `user`.avatar,
                file_describe,
+               file_type,
+               file_state,
                user_collect.create_time
         FROM file
                  JOIN user_collect ON file.id = user_collect.file_id

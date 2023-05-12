@@ -3,13 +3,10 @@ package com.example.privacyprotection.VO;
 import lombok.Data;
 
 @Data
-public class CollectVO {
+public class CommentVO {
     private Integer id;
     private String username;
     private String avatar;
-    private String fileName;
-    private String fileDescribe;
-    private Integer fileType;
-    private Integer fileState;
+    private String content;
     private String createTime;
 }

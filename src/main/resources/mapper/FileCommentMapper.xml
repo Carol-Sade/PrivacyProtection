@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.privacyprotection.mapper.FileCommentMapper">
+    <select id="getFileComments" resultType="com.example.privacyprotection.VO.CommentVO">
+        SELECT file_comment.id, file_comment.content, file_comment.create_time, `user`.username, `user`.avatar
+        FROM file_comment
+                 INNER JOIN `user` ON file_comment.user_id = `user`.id
+        WHERE file_comment.file_id = #{fileId}
+    </select>
+
+</mapper>

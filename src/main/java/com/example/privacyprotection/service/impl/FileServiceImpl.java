@@ -38,4 +38,20 @@ public class FileServiceImpl implements FileService {
             return fileMapper.insert(file);
         }
     }
+
+    public String downloadFile(Integer fileId) {
+        return null;
+    }
+
+    public Integer share(Integer userId, Integer fileId) {
+        return null;
+    }
+
+    public Integer deleteFile(Integer userId, Integer fileId) {
+        return null;
+    }
+
+    public Integer cancelShare(Integer userId, Integer fileId) {
+        return null;
+    }
 }
