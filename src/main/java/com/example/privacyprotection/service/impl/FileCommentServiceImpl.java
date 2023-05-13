@@ -6,6 +6,7 @@ import com.example.privacyprotection.mapper.FileCommentMapper;
 import com.example.privacyprotection.service.FileCommentService;
 import com.example.privacyprotection.utils.TimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -19,6 +20,10 @@ public class FileCommentServiceImpl implements FileCommentService {
 
     @Autowired
     private TimeFormat timeFormat;
+
+    @Value("${upload.avatarUrl}")
+    private String avatarUrl;
+
     public Integer comment(Integer userId, Integer fileId, String content) {
         FileComment fileComment = new FileComment();
         fileComment.setId(0);
@@ -31,7 +36,8 @@ public class FileCommentServiceImpl implements FileCommentService {
 
     public List<CommentVO> getFileComments(Integer fileId) {
         List<CommentVO> commentVOList = fileCommentMapper.getFileComments(fileId);
-        for(CommentVO commentVO:commentVOList){
+        for (CommentVO commentVO : commentVOList) {
+            commentVO.setAvatar(avatarUrl + commentVO.getAvatar());
             commentVO.setCreateTime(timeFormat.formatYMDHMS(Timestamp.valueOf(commentVO.getCreateTime())));
         }
         return commentVOList;

@@ -13,15 +13,17 @@
     <select id="getUserCollections" resultType="com.example.privacyprotection.VO.CollectVO">
         SELECT user_collect.id,
                file.file_name,
+               file.id as fileId,
                `user`.username,
                `user`.avatar,
                file_describe,
-               file_type,
                file_state,
+               file_type,
                user_collect.create_time
         FROM file
                  JOIN user_collect ON file.id = user_collect.file_id
                  JOIN `user` ON file.user_id = `user`.id
         WHERE user_collect.user_id = #{userId}
+          AND file_state = 1
     </select>
 </mapper>

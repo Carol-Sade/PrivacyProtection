@@ -8,4 +8,36 @@
         from file
         where file_path = #{fileName}
     </select>
+
+    <select id="getMyFiles" resultType="com.example.privacyprotection.VO.MyFileVO">
+        select *
+        from file
+        where user_id = #{userId}
+    </select>
+
+    <select id="getShare" resultType="com.example.privacyprotection.VO.ShareVO">
+        SELECT file.id,
+               file.file_name,
+               file_describe,
+               file_type as type,
+               `user`.username,
+               `user`.avatar,
+               file.create_time
+        FROM file
+                 INNER JOIN user ON file.user_id = `user`.id
+        where file.file_state = 1
+    </select>
+
+    <select id="searchShare" resultType="com.example.privacyprotection.VO.ShareVO">
+        SELECT file.id, file.file_name, file_describe, file_type as type, `user`.username, `user`.avatar, file.create_time
+        FROM file,`user`
+        INNER JOIN file_type ON file_type.type=type
+        <where>
+            <if test="key != null and key != ''">
+                AND (file.file_name LIKE CONCAT('%', #{key}, '%')
+                OR file.file_describe LIKE CONCAT('%', #{key}, '%')
+                OR file_type.type LIKE CONCAT('%', #{key}, '%'))
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -216,22 +216,27 @@ export const asyncRoutes = [
         component: () => import('@/views/user/option/option.vue'),
         meta: {title: '操作记录', icon: 'el-icon-paperclip'}
       },
+      {
+        path: 'collect',
+        component: () => import('@/views/user//collect/index.vue'),
+        meta: {title: '我的收藏', icon: 'el-icon-star-off'}
+      },
     ]
   },
   {
     path: '/feedback',
     component: Layout,
-    meta: { title: '反馈', icon: 'el-icon-user' },
+    meta: {title: '反馈', icon: 'el-icon-user'},
     children: [
       {
         path: 'userFeedback',
         component: () => import('@/views/feedback/user/index.vue'),
-        meta: { title: '反馈', icon: 'el-icon-tickets' }
+        meta: {title: '反馈', icon: 'el-icon-tickets'}
       },
       {
         path: 'adminFeedback',
         component: () => import('@/views/feedback/admin/index.vue'),
-        meta: { title: '查看反馈', icon: 'el-icon-paperclip', roles: ['2'] }
+        meta: {title: '查看反馈', icon: 'el-icon-paperclip', roles: ['2']}
       }
     ]
   },
