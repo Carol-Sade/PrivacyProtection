@@ -56,6 +56,15 @@ public class FileServiceImpl implements FileService {
 
     public String downloadFile(Integer fileId) {
         File file = fileMapper.selectById(fileId);
+        if (file != null) {
+            return url + file.getFilePath();
+        } else {
+            return null;
+        }
+    }
+
+    public String downloadUserFile(Integer fileId) {
+        File file = fileMapper.selectById(fileId);
         if (file != null && file.getFileState().equals(1)) {
             return url + file.getFilePath();
         } else {
@@ -91,6 +100,26 @@ public class FileServiceImpl implements FileService {
             file.setFileState(0);
             fileMapper.updateById(file);
             return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public Integer restore(Integer userId, Integer fileId) {
+        File file = fileMapper.selectById(fileId);
+        if (file != null && file.getUserId().equals(userId)) {
+            file.setFileState(0);
+            fileMapper.updateById(file);
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public Integer deleteAbsolutely(Integer userId, Integer fileId) {
+        File file = fileMapper.selectById(fileId);
+        if (file != null && file.getUserId().equals(userId)) {
+            return fileMapper.deleteById(fileId);
         } else {
             return 0;
         }

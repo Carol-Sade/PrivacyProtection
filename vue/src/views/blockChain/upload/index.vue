@@ -14,7 +14,7 @@
 
     </el-form>
     <div v-if="serverPath!==null">
-      <el-table v-loading="loading" :data="serverPath" stripe :border="true">
+      <el-table v-loading="loading" :data="serverPath" stripe >
         <el-table-column prop="type" label="类型" #default="scope">
           {{ scope.row.type === 'directory' ? '文件夹' : '文件' }}
         </el-table-column>

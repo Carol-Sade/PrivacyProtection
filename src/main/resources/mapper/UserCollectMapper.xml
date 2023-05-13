@@ -25,5 +25,6 @@
                  JOIN `user` ON file.user_id = `user`.id
         WHERE user_collect.user_id = #{userId}
           AND file_state = 1
+        order by create_time desc
     </select>
 </mapper>

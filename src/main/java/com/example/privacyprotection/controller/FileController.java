@@ -72,6 +72,28 @@ public class FileController {
         return map;
     }
 
+    @GetMapping("/downloadUserFile")
+    public Map<String, Object> downloadUserFile(@RequestHeader String token,
+                                                @RequestParam Integer fileId) {
+        Map<String, Object> map = new HashMap<>();
+        int userId = jwtUtils.checkToken(token);
+        if (userId == -1) {
+            map.put("code", -1);
+            map.put("msg", "token error");
+            return map;
+        }
+        String url = fileService.downloadUserFile(fileId);
+        if (url != null) {
+            map.put("code", 1);
+            map.put("msg", "success");
+            map.put("url", url);
+        } else {
+            map.put("code", 0);
+            map.put("msg", "fail");
+        }
+        return map;
+    }
+
     @GetMapping("/share")
     public Map<String, Object> share(@RequestHeader String token,
                                      @RequestParam Integer fileId) {
@@ -149,6 +171,59 @@ public class FileController {
         }
         return map;
     }
+
+    @GetMapping("/restore")
+    public Map<String, Object> restore(@RequestHeader String token,
+                                       @RequestParam Integer fileId) {
+        Map<String, Object> map = new HashMap<>();
+        int userId = jwtUtils.checkToken(token);
+        if (userId == -1) {
+            map.put("code", -1);
+            map.put("msg", "token error");
+            return map;
+        }
+        try {
+            int code = fileService.restore(userId, fileId);
+            if (code == 1) {
+                map.put("code", 1);
+                map.put("msg", "success");
+            } else {
+                map.put("code", 0);
+                map.put("msg", "fail");
+            }
+        } catch (Exception e) {
+            map.put("code", 0);
+            map.put("msg", e.getMessage());
+        }
+        return map;
+    }
+
+    @GetMapping("/deleteAbsolutely")
+    public Map<String, Object> deleteAbsolutely(@RequestHeader String token,
+                                                @RequestParam Integer fileId) {
+        Map<String, Object> map = new HashMap<>();
+        int userId = jwtUtils.checkToken(token);
+        if (userId == -1) {
+            map.put("code", -1);
+            map.put("msg", "token error");
+            return map;
+        }
+        try {
+            int code = fileService.deleteAbsolutely(userId, fileId);
+            if (code == 1) {
+                map.put("code", 1);
+                map.put("msg", "success");
+            } else {
+                map.put("code", 0);
+                map.put("msg", "fail");
+            }
+        } catch (Exception e) {
+            map.put("code", 0);
+            map.put("msg", e.getMessage());
+        }
+        return map;
+    }
+
 
     @GetMapping("/examineDelete")
     public Map<String, Object> examineDelete(@RequestHeader String token,

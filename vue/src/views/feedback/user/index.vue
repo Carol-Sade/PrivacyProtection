@@ -5,7 +5,7 @@
         <div v-loading="loading">
           <el-input v-model="feedback" placeholder="输入反馈信息" autosize type="textarea"
                     style="height: 20%; width: 50% ;margin-right: 10px"/>
-          <el-button type="primary" plain @click="sendFeedback">搜索</el-button>
+          <el-button type="primary" plain @click="sendFeedback">发送</el-button>
         </div>
       </el-form-item>
     </el-form>

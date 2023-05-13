@@ -11,11 +11,17 @@ public interface FileService {
 
     String downloadFile(Integer fileId);
 
+    String downloadUserFile(Integer fileId);
+
     Integer share(Integer userId, Integer fileId);
 
     Integer deleteFile(Integer userId, Integer fileId);
 
     Integer cancelShare(Integer userId, Integer fileId);
+
+    Integer restore(Integer userId, Integer fileId);
+
+    Integer deleteAbsolutely(Integer userId, Integer fileId);
 
     Integer examineDelete(Integer fileId);
 

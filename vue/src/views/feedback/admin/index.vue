@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-table v-loading="loading" :data="list" stripe :border="true" class="tableList">
+    <el-table v-loading="loading" :data="list" stripe class="tableList">
       <el-table-column prop="id" label="ID" width="50"/>
       <el-table-column label="用户" width="200" #default="scope">
         <div style="display: flex;justify-content: center;align-items: center">
