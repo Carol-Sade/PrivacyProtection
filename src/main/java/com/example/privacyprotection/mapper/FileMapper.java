@@ -17,6 +17,8 @@ public interface FileMapper extends BaseMapper<File> {
 
     List<ShareVO> getShare();
 
+    List<ShareVO> getExamine();
+
     List<ShareVO> searchShare(String key);
 
 

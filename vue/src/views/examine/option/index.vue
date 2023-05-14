@@ -34,7 +34,7 @@
 import request from "@/utils/request";
 
 export default {
-  name: 'Option',
+  name: "index",
   data() {
     return {
       list: [],
@@ -48,8 +48,8 @@ export default {
     getList() {
       this.loading = true
       request({
-        url: 'api/fileOption/getOptions',
-        method: 'get',
+        url: 'api/fileOption/getExamineOptions',
+        method: 'get'
       }).then((res) => {
         this.list = res.list
         this.loading = false

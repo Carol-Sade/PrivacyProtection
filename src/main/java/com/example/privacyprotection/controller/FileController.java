@@ -229,6 +229,7 @@ public class FileController {
     public Map<String, Object> examineDelete(@RequestHeader String token,
                                              @RequestParam Integer fileId) {
         Map<String, Object> map = new HashMap<>();
+        int userId = jwtUtils.checkToken(token);
         Map<String, Object> check = jwtUtils.checkPermission(token);
         if (!check.get("role").equals(2)) {
             map.put("code", -2);
@@ -236,7 +237,34 @@ public class FileController {
             return map;
         }
         try {
-            int code = fileService.examineDelete(fileId);
+            int code = fileService.examineDelete(userId, fileId);
+            if (code == 1) {
+                map.put("code", 1);
+                map.put("msg", "success");
+            } else {
+                map.put("code", 0);
+                map.put("msg", "fail");
+            }
+        } catch (Exception e) {
+            map.put("code", 0);
+            map.put("msg", e.getMessage());
+        }
+        return map;
+    }
+
+    @GetMapping("/examineRestore")
+    public Map<String, Object> examineRestore(@RequestHeader String token,
+                                              @RequestParam Integer fileId) {
+        Map<String, Object> map = new HashMap<>();
+        int userId = jwtUtils.checkToken(token);
+        Map<String, Object> check = jwtUtils.checkPermission(token);
+        if (!check.get("role").equals(2)) {
+            map.put("code", -2);
+            map.put("msg", "without permission");
+            return map;
+        }
+        try {
+            int code = fileService.examineRestore(userId, fileId);
             if (code == 1) {
                 map.put("code", 1);
                 map.put("msg", "success");
@@ -284,6 +312,26 @@ public class FileController {
             map.put("code", 1);
             map.put("msg", "success");
             map.put("list", fileService.getShare());
+        } catch (Exception e) {
+            map.put("code", 0);
+            map.put("msg", e.getMessage());
+        }
+        return map;
+    }
+
+    @GetMapping("/getExamine")
+    public Map<String, Object> getExamine(@RequestHeader String token) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> check = jwtUtils.checkPermission(token);
+        if (!check.get("role").equals(2)) {
+            map.put("code", -2);
+            map.put("msg", "without permission");
+            return map;
+        }
+        try {
+            map.put("code", 1);
+            map.put("msg", "success");
+            map.put("list", fileService.getExamine());
         } catch (Exception e) {
             map.put("code", 0);
             map.put("msg", e.getMessage());

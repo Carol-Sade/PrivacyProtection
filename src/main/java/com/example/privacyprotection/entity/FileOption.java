@@ -11,8 +11,8 @@ import java.sql.Timestamp;
 public class FileOption {
     @Id
     private Integer id;
-    private Integer userId;
+    private Integer optionUserId;
     private Integer fileId;
-    private String option;
+    private String optionName;
     private Timestamp createTime;
 }

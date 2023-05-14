@@ -21,6 +21,7 @@
                file.file_name,
                file_describe,
                file_type as type,
+               file_state,
                `user`.username,
                `user`.avatar,
                file.create_time
@@ -30,8 +31,25 @@
         order by create_time desc
     </select>
 
+    <select id="getExamine" resultType="com.example.privacyprotection.VO.ShareVO">
+        SELECT file.id,
+               file.file_name,
+               file_describe,
+               file_type as type,
+               file_state,
+               `user`.username,
+               `user`.avatar,
+               file.create_time
+        FROM file
+                 INNER JOIN user ON file.user_id = `user`.id
+        where file.file_state = 1
+           or file.file_state = -1
+        order by create_time desc
+    </select>
+
     <select id="searchShare" resultType="com.example.privacyprotection.VO.ShareVO">
-        SELECT file.id, file.file_name, file_describe, file_type as type, `user`.username, `user`.avatar, file.create_time
+        SELECT file.id, file.file_name, file_describe, file_type as type, `user`.username, `user`.avatar,
+        file.create_time
         FROM file,`user`
         INNER JOIN file_type ON file_type.type=type
         <where>

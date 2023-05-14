@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.privacyprotection.mapper.FileOptionMapper">
+    <select id="getOptions" resultType="com.example.privacyprotection.VO.OptionVO">
+        SELECT file_option.id,
+               file_option.option_name,
+               file.id as fileId,
+               file.file_name,
+               `user`.username,
+               `user`.avatar,
+               file_option.create_time
+        FROM file_option
+                 JOIN file ON file_option.file_id = file.id
+                 JOIN `user` ON file_option.option_user_id = `user`.id
+        WHERE file.user_id = #{userId}
+        order by file_option.create_time desc
+    </select>
+</mapper>

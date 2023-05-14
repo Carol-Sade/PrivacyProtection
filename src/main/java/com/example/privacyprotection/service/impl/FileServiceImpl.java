@@ -4,6 +4,7 @@ import com.example.privacyprotection.VO.MyFileVO;
 import com.example.privacyprotection.VO.ShareVO;
 import com.example.privacyprotection.entity.File;
 import com.example.privacyprotection.mapper.FileMapper;
+import com.example.privacyprotection.service.FileOptionService;
 import com.example.privacyprotection.service.FileService;
 import com.example.privacyprotection.utils.TimeFormat;
 import com.example.privacyprotection.utils.UploadFile;
@@ -23,6 +24,9 @@ public class FileServiceImpl implements FileService {
 
     @Autowired
     private UploadFile uploadFile;
+
+    @Autowired
+    private FileOptionService fileOptionService;
 
     @Autowired
     private TimeFormat timeFormat;
@@ -50,7 +54,9 @@ public class FileServiceImpl implements FileService {
         if (check != null) {
             return -2;
         } else {
-            return fileMapper.insert(file);
+            Integer code = fileMapper.insert(file);
+            fileOptionService.userOption(userId, file.getId(), "上传文件");
+            return code;
         }
     }
 
@@ -77,6 +83,7 @@ public class FileServiceImpl implements FileService {
         if (file != null && file.getUserId().equals(userId)) {
             file.setFileState(1);
             fileMapper.updateById(file);
+            fileOptionService.userOption(userId, fileId, "共享文件");
             return 1;
         } else {
             return 0;
@@ -86,8 +93,9 @@ public class FileServiceImpl implements FileService {
     public Integer deleteFile(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null && file.getUserId().equals(userId)) {
-            file.setFileState(-1);
+            file.setFileState(-2);
             fileMapper.updateById(file);
+            fileOptionService.userOption(userId, fileId, "用户删除文件");
             return 1;
         } else {
             return 0;
@@ -99,6 +107,7 @@ public class FileServiceImpl implements FileService {
         if (file != null && file.getUserId().equals(userId)) {
             file.setFileState(0);
             fileMapper.updateById(file);
+            fileOptionService.userOption(userId, fileId, "取消共享");
             return 1;
         } else {
             return 0;
@@ -110,6 +119,7 @@ public class FileServiceImpl implements FileService {
         if (file != null && file.getUserId().equals(userId)) {
             file.setFileState(0);
             fileMapper.updateById(file);
+            fileOptionService.userOption(userId, fileId, "恢复文件");
             return 1;
         } else {
             return 0;
@@ -119,17 +129,32 @@ public class FileServiceImpl implements FileService {
     public Integer deleteAbsolutely(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null && file.getUserId().equals(userId)) {
-            return fileMapper.deleteById(fileId);
+            Integer code = fileMapper.deleteById(fileId);
+            fileOptionService.userOption(userId, fileId, "彻底删除");
+            return code;
         } else {
             return 0;
         }
     }
 
-    public Integer examineDelete(Integer fileId) {
+    public Integer examineDelete(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null) {
-            file.setFileState(-2);
+            file.setFileState(-1);
             fileMapper.updateById(file);
+            fileOptionService.userOption(userId, fileId, "审核删除");
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public Integer examineRestore(Integer userId, Integer fileId) {
+        File file = fileMapper.selectById(fileId);
+        if (file != null) {
+            file.setFileState(1);
+            fileMapper.updateById(file);
+            fileOptionService.userOption(userId, fileId, "审核恢复");
             return 1;
         } else {
             return 0;
@@ -146,6 +171,15 @@ public class FileServiceImpl implements FileService {
 
     public List<ShareVO> getShare() {
         List<ShareVO> shareList = fileMapper.getShare();
+        for (ShareVO shareVO : shareList) {
+            shareVO.setAvatar(avatarUrl + shareVO.getAvatar());
+            shareVO.setCreateTime(timeFormat.formatYMDHMS(Timestamp.valueOf(shareVO.getCreateTime())));
+        }
+        return shareList;
+    }
+
+    public List<ShareVO> getExamine() {
+        List<ShareVO> shareList = fileMapper.getExamine();
         for (ShareVO shareVO : shareList) {
             shareVO.setAvatar(avatarUrl + shareVO.getAvatar());
             shareVO.setCreateTime(timeFormat.formatYMDHMS(Timestamp.valueOf(shareVO.getCreateTime())));

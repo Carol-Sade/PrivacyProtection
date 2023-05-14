@@ -1,73 +1,78 @@
 <template>
   <div class="app-container">
-    <el-table v-loading="loading" :data="list" stripe class="tableList">
-      <el-table-column prop="id" label="ID" width="50"/>
-      <el-table-column label="文件所有者" width="150" #default="scope">
-        <div style="display: flex;justify-content: center;align-items: center">
-          <el-avatar :src="scope.row.avatar"></el-avatar>
-          <span style="margin-left: 5px;">{{ scope.row.username }}</span>
-        </div>
-      </el-table-column>
-      <el-table-column prop="fileName" label="文件名"/>
+    <div v-if="list.length!==0">
+      <el-table v-loading="loading" :data="list" stripe class="tableList">
+        <el-table-column prop="id" label="ID" width="50"/>
+        <el-table-column label="文件所有者" width="150" #default="scope">
+          <div style="display: flex;justify-content: center;align-items: center">
+            <el-avatar :src="scope.row.avatar"></el-avatar>
+            <span style="margin-left: 5px;">{{ scope.row.username }}</span>
+          </div>
+        </el-table-column>
+        <el-table-column prop="fileName" label="文件名"/>
 
-      <el-table-column #default="scope" label="文件类型" width="80">
-        <div v-if="scope.row.type===1">文档</div>
-        <div v-else-if="scope.row.type===2">图片</div>
-        <div v-else-if="scope.row.type===3">音乐</div>
-        <div v-else-if="scope.row.type===4">视频</div>
-      </el-table-column>
-      <el-table-column prop="createTime" label="收藏时间" width="160"/>
+        <el-table-column #default="scope" label="文件类型" width="80">
+          <div v-if="scope.row.type===1">文档</div>
+          <div v-else-if="scope.row.type===2">图片</div>
+          <div v-else-if="scope.row.type===3">音乐</div>
+          <div v-else-if="scope.row.type===4">视频</div>
+        </el-table-column>
+        <el-table-column prop="createTime" label="收藏时间" width="160"/>
 
-      <el-table-column #default="scope" label="操作" width="180" >
-        <el-popconfirm title="确认下载？" confirm-button-text="是" cancel-button-text="否"
-                       @onConfirm="download(scope.row.id,scope.$index)">
-          <template #reference>
-            <el-button type="primary" plain>下载</el-button>
+        <el-table-column #default="scope" label="操作" width="180">
+          <el-popconfirm title="确认下载？" confirm-button-text="是" cancel-button-text="否"
+                         @onConfirm="download(scope.row.id,scope.$index)">
+            <template #reference>
+              <el-button type="primary" plain>下载</el-button>
+            </template>
+          </el-popconfirm>
+          <el-popconfirm title="确认收藏？" confirm-button-text="是" cancel-button-text="否"
+                         @onConfirm="sendCollect(scope.row.id,scope.$index)">
+            <template #reference>
+              <el-button type="primary" plain>收藏</el-button>
+            </template>
+          </el-popconfirm>
+        </el-table-column>
+
+        <el-table-column type="expand" fixed="right">
+          <template #default="scope">
+            <p>文件描述：{{ scope.row.fileDescribe }}</p>
+
+            <el-collapse @change="getComments(scope.row.id,scope.$index)">
+              <el-collapse-item title="评论列表" name="1" v-loading="commentLoading">
+                <div v-if="scope.row.comments.length!==0">
+                  <el-table :data="scope.row.comments">
+                    <el-table-column label="文件所有者" width="150" #default="scope">
+                      <div style="display: flex;justify-content: center;align-items: center">
+                        <el-avatar :src="scope.row.avatar"></el-avatar>
+                        <span style="margin-left: 5px;">{{ scope.row.username }}</span>
+                      </div>
+                    </el-table-column>
+                    <el-table-column prop="content" label="评论内容"/>
+                    <el-table-column prop="createTime" label="评论时间"/>
+                  </el-table>
+                </div>
+                <div v-else style="text-align: center;margin-top: 10px">暂无评论</div>
+              </el-collapse-item>
+            </el-collapse>
+
+            <el-form>
+              <el-form-item label="发送评论">
+                <div style="display: flex;align-items: center">
+                  <el-input v-model="commentContent" placeholder="输入评论"></el-input>
+                  <el-button @click="comment(scope.row.id)">评论</el-button>
+                </div>
+              </el-form-item>
+            </el-form>
+
           </template>
-        </el-popconfirm>
-        <el-popconfirm title="确认收藏？" confirm-button-text="是" cancel-button-text="否"
-                       @onConfirm="sendCollect(scope.row.id,scope.$index)">
-          <template #reference>
-            <el-button type="primary" plain>收藏</el-button>
-          </template>
-        </el-popconfirm>
-      </el-table-column>
-
-      <el-table-column type="expand" fixed="right">
-        <template #default="scope">
-          <p>文件描述：{{ scope.row.fileDescribe }}</p>
-
-          <el-collapse @change="getComments(scope.row.id,scope.$index)">
-            <el-collapse-item title="评论列表" name="1" v-loading="commentLoading">
-              <div v-if="scope.row.comments.length!==0">
-                <el-table :data="scope.row.comments">
-                  <el-table-column label="文件所有者" width="150" #default="scope">
-                    <div style="display: flex;justify-content: center;align-items: center">
-                      <el-avatar :src="scope.row.avatar"></el-avatar>
-                      <span style="margin-left: 5px;">{{ scope.row.username }}</span>
-                    </div>
-                  </el-table-column>
-                  <el-table-column prop="content" label="评论内容"/>
-                  <el-table-column prop="createTime" label="评论时间"/>
-                </el-table>
-              </div>
-              <div v-else style="text-align: center;margin-top: 10px">暂无评论</div>
-            </el-collapse-item>
-          </el-collapse>
-
-          <el-form>
-            <el-form-item label="发送评论">
-              <div style="display: flex;align-items: center">
-                <el-input v-model="commentContent" placeholder="输入评论"></el-input>
-                <el-button @click="comment(scope.row.id)">评论</el-button>
-              </div>
-            </el-form-item>
-          </el-form>
-
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-backtop></el-backtop>
+        </el-table-column>
+      </el-table>
+      <el-backtop></el-backtop>
+    </div>
+    <div v-else>
+      <p style="color: #99a9bf; display: flex; justify-content: center">暂无文件</p>
+    </div>
   </div>
 
 </template>

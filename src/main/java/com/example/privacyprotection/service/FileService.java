@@ -23,11 +23,15 @@ public interface FileService {
 
     Integer deleteAbsolutely(Integer userId, Integer fileId);
 
-    Integer examineDelete(Integer fileId);
+    Integer examineDelete(Integer userId, Integer fileId);
+
+    Integer examineRestore(Integer userId, Integer fileId);
 
     List<MyFileVO> getMyFiles(Integer userId);
 
     List<ShareVO> getShare();
+
+    List<ShareVO> getExamine();
 
     List<ShareVO> searchShare(String key);
 

@@ -12,27 +12,48 @@
         <el-table-column prop="fileName" label="文件名"/>
 
         <el-table-column #default="scope" label="文件类型" width="80">
-          <div v-if="scope.row.fileType===1">文档</div>
-          <div v-else-if="scope.row.fileType===2">图片</div>
-          <div v-else-if="scope.row.fileType===3">音乐</div>
-          <div v-else-if="scope.row.fileType===4">视频</div>
+          <div v-if="scope.row.type===1">文档</div>
+          <div v-else-if="scope.row.type===2">图片</div>
+          <div v-else-if="scope.row.type===3">音乐</div>
+          <div v-else-if="scope.row.type===4">视频</div>
         </el-table-column>
 
-        <el-table-column prop="createTime" label="收藏时间" width="160"/>
-        <el-table-column #default="scope" label="操作" width="200">
-          <el-popconfirm title="确认下载？" confirm-button-text="是" cancel-button-text="否"
-                         @onConfirm="download(scope.row.id)">
-            <template #reference>
-              <el-button type="primary" plain>下载</el-button>
-            </template>
-          </el-popconfirm>
-          <el-popconfirm title="确认取消？" confirm-button-text="是" cancel-button-text="否"
-                         @onConfirm="cancelCollect(scope.row.id,scope.$index)">
-            <template #reference>
-              <el-button type="warning" plain>取消收藏</el-button>
-            </template>
-          </el-popconfirm>
+        <el-table-column #default="scope" label="文件状态" width="80">
+          <div v-if="scope.row.fileState===0" class="blue">未共享</div>
+          <div v-else-if="scope.row.fileState===1" class="green">已共享</div>
+          <div v-else-if="scope.row.fileState===-1" class="red">审核删除</div>
+          <div v-else-if="scope.row.fileState===-2">用户删除</div>
         </el-table-column>
+        <el-table-column prop="createTime" label="上传时间" width="160"/>
+
+
+        <el-table-column #default="scope" label="操作" width="180">
+
+          <div v-if="scope.row.fileState===1">
+            <el-popconfirm title="确认下载？" confirm-button-text="是" cancel-button-text="否"
+                           @onConfirm="download(scope.row.id,scope.$index)">
+              <template #reference>
+                <el-button type="primary" plain>下载</el-button>
+              </template>
+            </el-popconfirm>
+            <el-popconfirm title="确认删除？" confirm-button-text="是" cancel-button-text="否"
+                           @onConfirm="del(scope.row.id,scope.$index)">
+              <template #reference>
+                <el-button type="danger" plain>删除</el-button>
+              </template>
+            </el-popconfirm>
+          </div>
+          <div v-else>
+            <el-popconfirm title="确认恢复？" confirm-button-text="是" cancel-button-text="否"
+                           @onConfirm="restore(scope.row.id,scope.$index)">
+              <template #reference>
+                <el-button type="success" plain>恢复</el-button>
+              </template>
+            </el-popconfirm>
+          </div>
+
+        </el-table-column>
+
         <el-table-column type="expand" fixed="right">
           <template #default="scope">
             <p>文件描述：{{ scope.row.fileDescribe }}</p>
@@ -66,15 +87,12 @@
 
           </template>
         </el-table-column>
-
       </el-table>
-
       <el-backtop></el-backtop>
     </div>
     <div v-else>
-      <p style="color: #99a9bf; display: flex; justify-content: center">还未收藏文件</p>
+      <p style="color: #99a9bf; display: flex; justify-content: center">暂无文件</p>
     </div>
-
   </div>
 </template>
 
@@ -98,14 +116,14 @@ export default {
     getList() {
       this.loading = true
       request({
-        url: 'api/userCollect/getUserCollections',
+        url: 'api/file/getExamine',
         method: 'get'
       }).then((res) => {
         this.list = res.list
         this.loading = false
       })
     },
-    download(fileId) {
+    download(fileId, index) {
       this.loading = true
       request({
         method: 'get',
@@ -114,7 +132,6 @@ export default {
           fileId: fileId
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           try {
             const link = document.createElement('a')
@@ -148,31 +165,6 @@ export default {
         }
       })
       this.loading = false
-    },
-    cancelCollect(collectId, index) {
-      request({
-        method: 'get',
-        url: 'api/userCollect/cancelCollect',
-        params: {
-          collectId: collectId
-        }
-      }).then((res) => {
-        console.log(res)
-        if (res.code === 1) {
-          this.$notify({
-            title: '成功',
-            message: '取消成功',
-            type: 'success'
-          })
-          this.list.splice(index, 1)
-        } else {
-          this.$notify({
-            title: '失败',
-            message: '取消失败',
-            type: 'error'
-          })
-        }
-      })
     },
     getComments(fileId, index) {
       if (this.list[index].comments !== []) {
@@ -214,12 +206,77 @@ export default {
         }
         this.commentContent = null
       })
+    },
+    del(fileId, index) {
+      request({
+        method: 'get',
+        url: 'api/file/examineDelete',
+        params: {
+          fileId: fileId
+        }
+      }).then((res) => {
+        console.log(res)
+        if (res.code === 1) {
+          this.$notify({
+            title: '成功',
+            message: '删除成功',
+            type: 'success'
+          })
+          this.list[index].fileState = -1
+        } else {
+          this.$notify({
+            title: '失败',
+            message: '删除失败',
+            type: 'error'
+          })
+        }
+      })
+    },
+    restore(fileId, index) {
+      request({
+        method: 'get',
+        url: 'api/file/examineRestore',
+        params: {
+          fileId: fileId
+        }
+      }).then((res) => {
+        if (res.code === 1) {
+          this.$notify({
+            title: '成功',
+            message: '恢复成功',
+            type: 'success'
+          })
+          this.list[index].fileState = 1
+        } else {
+          this.$notify({
+            title: '失败',
+            message: '恢复失败',
+            type: 'error'
+          })
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped>
+.green {
+  color: #67C23A;
+}
+
+.yellow {
+  color: #E6A23C;
+}
+
+.red {
+  color: #F56C6C;
+}
+
+.blue {
+  color: #409EFF;
+}
+
 button {
   margin: 2px;
 }

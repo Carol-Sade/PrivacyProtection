@@ -202,6 +202,23 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/examine',
+    component: Layout,
+    meta: {title: '共享文件审核', icon: 'el-icon-s-check', roles: ['2']},
+    children: [
+      {
+        path: 'examineFile',
+        component: () => import('@/views/examine/examineFile/index.vue'),
+        meta: {title: '文件审核', icon: 'el-icon-edit', roles: ['2']}
+      },
+      {
+        path: 'option',
+        component: () => import('@/views/examine/option/index.vue'),
+        meta: {title: '操作记录', icon: 'el-icon-paperclip', roles: ['2']},
+      }
+    ]
+  },
+  {
     path: '/user',
     component: Layout,
     meta: {title: '用户', icon: 'el-icon-user'},

@@ -11,6 +11,7 @@ public class ShareVO {
     private String fileName;
     private String fileDescribe;
     private Integer type;
+    private Integer fileState;
     private String username;
     private String avatar;
     List<CommentVO> comments = new ArrayList<>();
