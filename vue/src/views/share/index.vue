@@ -16,6 +16,7 @@
           <div v-else-if="scope.row.type===2">图片</div>
           <div v-else-if="scope.row.type===3">音乐</div>
           <div v-else-if="scope.row.type===4">视频</div>
+          <div v-else-if="scope.row.type===5">其他</div>
         </el-table-column>
         <el-table-column prop="createTime" label="收藏时间" width="160"/>
 
@@ -42,7 +43,7 @@
               <el-collapse-item title="评论列表" name="1" v-loading="commentLoading">
                 <div v-if="scope.row.comments.length!==0">
                   <el-table :data="scope.row.comments">
-                    <el-table-column label="文件所有者" width="150" #default="scope">
+                    <el-table-column label="评论人" width="150" #default="scope">
                       <div style="display: flex;justify-content: center;align-items: center">
                         <el-avatar :src="scope.row.avatar"></el-avatar>
                         <span style="margin-left: 5px;">{{ scope.row.username }}</span>

@@ -63,7 +63,7 @@ public class FileOptionServiceImpl implements FileOptionService {
     }
 
     public List<OptionVO> getExamineOptions(Integer userId) {
-        List<OptionVO> optionList = fileOptionMapper.getOptions(userId);
+        List<OptionVO> optionList = fileOptionMapper.getExamineOptions(userId);
         List<OptionVO> optionVOList = new ArrayList<>();
         for (OptionVO optionVO : optionList) {
             if (optionVO.getOptionName().equals("审核删除") || optionVO.getOptionName().equals("审核恢复")) {

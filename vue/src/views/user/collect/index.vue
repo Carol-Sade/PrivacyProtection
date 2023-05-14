@@ -16,6 +16,7 @@
           <div v-else-if="scope.row.fileType===2">图片</div>
           <div v-else-if="scope.row.fileType===3">音乐</div>
           <div v-else-if="scope.row.fileType===4">视频</div>
+          <div v-else-if="scope.row.fileType===5">其他</div>
         </el-table-column>
 
         <el-table-column prop="createTime" label="收藏时间" width="160"/>
@@ -74,7 +75,6 @@
     <div v-else>
       <p style="color: #99a9bf; display: flex; justify-content: center">还未收藏文件</p>
     </div>
-
   </div>
 </template>
 

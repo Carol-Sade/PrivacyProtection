@@ -17,4 +17,19 @@
         WHERE file.user_id = #{userId}
         order by file_option.create_time desc
     </select>
+
+    <select id="getExamineOptions" resultType="com.example.privacyprotection.VO.OptionVO">
+        SELECT file_option.id,
+               file_option.option_name,
+               `user`.username,
+               `user`.avatar,
+               file.id AS fileId,
+               file_name,
+               file_option.create_time
+        from file_option
+                 JOIN `user` ON `user`.id = file_option.option_user_id
+                 JOIN file ON file.id = file_option.file_id
+        where `user`.id = #{userId}
+        order by file_option.create_time desc
+    </select>
 </mapper>

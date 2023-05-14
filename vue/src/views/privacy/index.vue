@@ -43,6 +43,7 @@
           <div v-else-if="scope.row.fileType===2">图片</div>
           <div v-else-if="scope.row.fileType===3">音乐</div>
           <div v-else-if="scope.row.fileType===4">视频</div>
+          <div v-else-if="scope.row.fileType===5">其他</div>
         </el-table-column>
 
         <el-table-column #default="scope" label="文件状态" width="80">
@@ -332,7 +333,6 @@ export default {
           fileId: fileId
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           this.$notify({
             title: '成功',
@@ -382,7 +382,6 @@ export default {
           fileId: fileId
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           this.$notify({
             title: '成功',

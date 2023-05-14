@@ -129,9 +129,7 @@ public class FileServiceImpl implements FileService {
     public Integer deleteAbsolutely(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null && file.getUserId().equals(userId)) {
-            Integer code = fileMapper.deleteById(fileId);
-            fileOptionService.userOption(userId, fileId, "彻底删除");
-            return code;
+            return fileMapper.deleteById(fileId);
         } else {
             return 0;
         }

@@ -5,9 +5,11 @@ import com.example.privacyprotection.mapper.UserMapper;
 import com.example.privacyprotection.service.UserService;
 import com.example.privacyprotection.utils.JWTUtils;
 import com.example.privacyprotection.utils.MD5;
+import com.example.privacyprotection.utils.UploadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private MD5 md5;
+
+    @Autowired
+    private UploadFile uploadFile;
 
     @Value("${upload.avatarUrl}")
     private String avatarUrl;
@@ -48,7 +53,6 @@ public class UserServiceImpl implements UserService {
             map.put("code", -2);
             map.put("msg", "error");
         }
-
         return map;
     }
 
@@ -94,5 +98,57 @@ public class UserServiceImpl implements UserService {
             map.put("msg", "token error");
         }
         return map;
+    }
+
+    public Integer resetUsername(Integer userId, String newUsername) {
+        try {
+            User user = userMapper.checkUsername(newUsername);
+            if (user == null) {
+                User newUser = userMapper.selectById(userId);
+                newUser.setUsername(newUsername);
+                userMapper.updateById(newUser);
+                return 1;
+            } else {
+                return -2;
+            }
+        } catch (Exception exception) {
+            return 0;
+        }
+    }
+
+    public Integer resetPassword(Integer userId, String oldPassword, String newPassword) {
+        try {
+            User user = userMapper.selectById(userId);
+            if (user != null) {
+                if (md5.MD5Encode(oldPassword).equals(user.getPassword())) {
+                    user.setPassword(md5.MD5Encode(newPassword));
+                    userMapper.updateById(user);
+                    return 1;
+                } else {
+                    return -2;
+                }
+            }
+            return 0;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public Integer resetAvatar(Integer userId, MultipartFile file) {
+        try {
+            User user = userMapper.selectById(userId);
+            if (user != null) {
+                String avatar = uploadFile.uploadAvatar(file);
+                if (avatar == null) {
+                    return 0;
+                }
+                user.setAvatar(avatar);
+                userMapper.updateById(user);
+                return 1;
+            }
+            return 0;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

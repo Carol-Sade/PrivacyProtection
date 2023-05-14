@@ -1,26 +1,31 @@
 <template>
   <div class="app-container">
-    <el-table v-loading="loading" :data="list" stripe class="tableList">
-      <el-table-column prop="id" label="ID" width="50"/>
-      <el-table-column label="用户" width="200" #default="scope">
-        <div style="display: flex;justify-content: center;align-items: center">
-          <el-avatar :src="scope.row.avatar"></el-avatar>
-          <span style="margin-left: 5px;">{{ scope.row.username }}</span>
-        </div>
-      </el-table-column>
-      <el-table-column prop="content" label="内容"/>
-      <el-table-column prop="time" label="发布时间" width="200"/>
-      <el-table-column #default="scope" label="操作" width="200">
-        <el-popconfirm title="确认删除？" confirm-button-text="是" cancel-button-text="否"
-                       @onConfirm="del(scope.row.id,scope.$index)">
-          <template #reference>
-            <el-button type="danger" plain>删除</el-button>
-          </template>
-        </el-popconfirm>
-      </el-table-column>
-    </el-table>
+    <div v-if="list.length!==0">
+      <el-table v-loading="loading" :data="list" stripe class="tableList">
+        <el-table-column prop="id" label="ID" width="50"/>
+        <el-table-column label="用户" width="200" #default="scope">
+          <div style="display: flex;justify-content: center;align-items: center">
+            <el-avatar :src="scope.row.avatar"></el-avatar>
+            <span style="margin-left: 5px;">{{ scope.row.username }}</span>
+          </div>
+        </el-table-column>
+        <el-table-column prop="content" label="内容"/>
+        <el-table-column prop="time" label="发布时间" width="200"/>
+        <el-table-column #default="scope" label="操作" width="200">
+          <el-popconfirm title="确认删除？" confirm-button-text="是" cancel-button-text="否"
+                         @onConfirm="del(scope.row.id,scope.$index)">
+            <template #reference>
+              <el-button type="danger" plain>删除</el-button>
+            </template>
+          </el-popconfirm>
+        </el-table-column>
+      </el-table>
 
-    <el-backtop></el-backtop>
+      <el-backtop></el-backtop>
+    </div>
+    <div v-else>
+      <p style="color: #99a9bf; display: flex; justify-content: center">暂无反馈</p>
+    </div>
   </div>
 </template>
 

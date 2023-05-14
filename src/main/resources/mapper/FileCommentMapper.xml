@@ -8,6 +8,7 @@
         FROM file_comment
                  INNER JOIN `user` ON file_comment.user_id = `user`.id
         WHERE file_comment.file_id = #{fileId}
+        order by file_comment.create_time desc
     </select>
 
 </mapper>

@@ -12,4 +12,6 @@ public interface FileOptionMapper extends BaseMapper<FileOption> {
 
     List<OptionVO> getOptions(Integer userId);
 
+    List<OptionVO> getExamineOptions(Integer userId);
+
 }

@@ -94,7 +94,7 @@ public class UploadFile {
                 filePath = null;
             }
         }
-        return avatarUrl + filePath;
+        return filePath;
     }
 
     public List<String> getPictures() {
