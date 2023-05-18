@@ -64,6 +64,18 @@ public class FabricSDK {
             FabricClient fabricClient = new FabricClient(userContext);
             Peer peer = fabricClient.getPeer("peer0.org1.example.com", "grpcs://peer0.org1.example.com:7051", org1TlsPeerFilePath);
             Orderer order = fabricClient.getOrderer("orderer.example.com", "grpcs://orderer.example.com:7050", tlsOrderFilePath);
+
+//            UserContext userContext = new UserContext();
+//            userContext.setAffiliation("Org2");
+//            userContext.setMspId("Org2MSP");
+//            userContext.setAccount("李伟");
+//            userContext.setName("admin");
+//            Enrollment enrollment = UserUtils.getEnrollment(org2KeyFolderPath, org2KeyFileName, org2CertFolderPath, org2CertFileName);
+//            userContext.setEnrollment(enrollment);
+//            FabricClient fabricClient = new FabricClient(userContext);
+//            Peer peer = fabricClient.getPeer("peer0.org2.example.com", "grpcs://peer0.org2.example.com:9051", org2TlsPeerFilePath);
+//            Orderer order = fabricClient.getOrderer("orderer.example.com", "grpcs://orderer.example.com:7050", tlsOrderFilePath);
+
             String[] initArgs = {""};
             return fabricClient.initChaincode(channelname, TransactionRequest.Type.GO_LANG, chaincodeName, chaincodeVersion, order, peer, "init", initArgs);
         } catch (NoSuchMethodException e) {
@@ -230,7 +242,7 @@ public class FabricSDK {
      * String[] initArgsQuery1 = {"10001"};
      * queryAllChaincode(initArgsQuery10003,chaincodeName3)
      */
-    public Collection queryChaincode(String[] initArgs) {
+    public Map queryChaincode(String[] initArgs) {
         try {
             UserContext userContext = new UserContext();
             userContext.setAffiliation("Org1");
@@ -247,7 +259,7 @@ public class FabricSDK {
             peers.add(peer0);
             peers.add(peer1);
             Map map = fabricClient.queryChaincode(peers, channelname, TransactionRequest.Type.GO_LANG, chainCodeName, "query", initArgs);
-            return map.values();
+            return map;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {

@@ -6,6 +6,7 @@ import com.example.privacyprotection.entity.File;
 import com.example.privacyprotection.mapper.FileMapper;
 import com.example.privacyprotection.service.FileOptionService;
 import com.example.privacyprotection.service.FileService;
+import com.example.privacyprotection.utils.FabricUtils;
 import com.example.privacyprotection.utils.TimeFormat;
 import com.example.privacyprotection.utils.UploadFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class FileServiceImpl implements FileService {
 
     @Autowired
     private TimeFormat timeFormat;
+
+    @Autowired
+    private FabricUtils fabricUtils;
 
 
     @Value("${upload.url}")
@@ -56,6 +60,7 @@ public class FileServiceImpl implements FileService {
         } else {
             Integer code = fileMapper.insert(file);
             fileOptionService.userOption(userId, file.getId(), "上传文件");
+            fabricUtils.insert(file);
             return code;
         }
     }

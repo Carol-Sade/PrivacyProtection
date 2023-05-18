@@ -237,7 +237,7 @@ public class FabricClient {
         for (ProposalResponse response : responses) {
             if (response.getStatus().getStatus() == 200) {
                 log.info("data is {}", response.getProposalResponse().getResponse().getPayload());
-                map.put(response.getStatus().getStatus(), new String(response.getProposalResponse().getResponse().getPayload().toByteArray()));
+                map.put("data", new String(response.getProposalResponse().getResponse().getPayload().toByteArray()));
                 return map;
             } else {
                 log.error("data get error {}", response.getMessage());

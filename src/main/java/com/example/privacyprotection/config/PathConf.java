@@ -16,8 +16,8 @@ public class PathConf {
      * org1KeyFileName:变量值为文件名，文件位于"resources/file/fabric/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore"目录下
      * org2KeyFileName:变量值为文件名，文件位于"resources/file/fabric/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore"目录下
      */
-    public static final String org1KeyFileName = "ba4a2eadefa2c6ddc214f17340f30218b413f854dc8c61e712c61c07841ca3c7_sk";
-    public static final String org2KeyFileName = "545f8666fa88e19dcffc109765c38d9ffe84c4d6a793761ba9518de3ce012597_sk";
+    public static final String org1KeyFileName = "aef7ea0edc0c3bd0339a0e7bfe9ca5c419a1219f819b9e6b4691163725b6304c_sk";
+    public static final String org2KeyFileName = "bd67ec67ed5368a1d5e8bf1e2da52283c60cd07a85c63a64edf1170363b4f645_sk";
 
 
     /**
