@@ -59,7 +59,7 @@ public class FabricClient {
      * @throws ProposalException
      * @description 安装合约
      */
-    public Object installChaincode(TransactionRequest.Type lang, String chaincodeName, String chaincodeVersion, String chaincodeLocation, String chaincodePath, List<Peer> peers) throws InvalidArgumentException, ProposalException {
+    public Object installChaincode(TransactionRequest.Type lang, String chaincodeName, String chaincodeVersion, String chaincodeLocation, String chaincodePath, List<Peer> peers) throws Exception {
         String result = "";
         InstallProposalRequest installProposalRequest = hfClient.newInstallProposalRequest();
         ChaincodeID.Builder builder = ChaincodeID.newBuilder().setName(chaincodeName).setVersion(chaincodeVersion);

@@ -20,9 +20,13 @@ public class MyConfig implements WebMvcConfigurer {
     @Value("${upload.avatarLocation}")
     private String avatarLocation;
 
+    @Value("${upload.chaincodeLocation}")
+    private String chaincodeLocation;
+
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/upload/**").addResourceLocations("file:" + location);
         registry.addResourceHandler("/avatar/**").addResourceLocations("file:" + avatarLocation);
+        registry.addResourceHandler("/chaincode/**").addResourceLocations("file:" + chaincodeLocation);
     }
 
     @Bean

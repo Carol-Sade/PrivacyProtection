@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
 @Component
 public class UploadFile {
 
@@ -22,6 +23,9 @@ public class UploadFile {
 
     @Value("${upload.avatarLocation}")
     private String avatarLocation;
+
+    @Value("${upload.chaincodeLocation}")
+    private String chaincodeLocation;
 
     @Value(("${upload.url}"))
     private String url;
@@ -95,6 +99,27 @@ public class UploadFile {
             }
         }
         return filePath;
+    }
+
+    public String uploadChaincode(MultipartFile multipartFile, String chaincodeName) {
+        try {
+            String realPath = chaincodeLocation + chaincodeName + "/";
+            File dir = new File(realPath);
+            if (!dir.isDirectory()) {
+                dir.mkdirs();
+            }
+            if (!multipartFile.isEmpty()) {
+                String fileName = multipartFile.getOriginalFilename();
+                File file1 = new File(realPath + fileName);
+                OutputStream out = new FileOutputStream(file1);
+                out.write(multipartFile.getBytes());
+                out.close();
+                return fileName;
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<String> getPictures() {

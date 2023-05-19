@@ -2,7 +2,7 @@
   <div class="app-container">
     <div v-if="list.length!==0">
       <el-table v-loading="loading" :data="list" stripe class="tableList">
-        <el-table-column prop="id" label="ID" width="50"/>
+        <el-table-column prop="fileId" label="ID" width="50"/>
         <el-table-column label="文件所有者" width="150" #default="scope">
           <div style="display: flex;justify-content: center;align-items: center">
             <el-avatar :src="scope.row.avatar"></el-avatar>
@@ -22,7 +22,7 @@
         <el-table-column prop="createTime" label="收藏时间" width="160"/>
         <el-table-column #default="scope" label="操作" width="200">
           <el-popconfirm title="确认下载？" confirm-button-text="是" cancel-button-text="否"
-                         @onConfirm="download(scope.row.id)">
+                         @onConfirm="download(scope.row.fileId)">
             <template #reference>
               <el-button type="primary" plain>下载</el-button>
             </template>
@@ -38,7 +38,7 @@
           <template #default="scope">
             <p>文件描述：{{ scope.row.fileDescribe }}</p>
 
-            <el-collapse @change="getComments(scope.row.id,scope.$index)">
+            <el-collapse @change="getComments(scope.row.fileId,scope.$index)">
               <el-collapse-item title="评论列表" name="1" v-loading="commentLoading">
                 <div v-if="scope.row.comments.length!==0">
                   <el-table :data="scope.row.comments">
@@ -60,7 +60,7 @@
               <el-form-item label="发送评论">
                 <div style="display: flex;align-items: center">
                   <el-input v-model="commentContent" placeholder="输入评论"></el-input>
-                  <el-button @click="comment(scope.row.id)">评论</el-button>
+                  <el-button @click="comment(scope.row.fileId)">评论</el-button>
                 </div>
               </el-form-item>
             </el-form>
@@ -139,6 +139,12 @@ export default {
               type: 'error'
             })
           }
+        } else if (res.code === -2) {
+          this.$notify({
+            title: '下载失败',
+            message: '文件校验出错',
+            type: 'error'
+          })
         } else {
           this.$notify({
             title: '下载失败',

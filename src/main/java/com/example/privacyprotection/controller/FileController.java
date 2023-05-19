@@ -60,15 +60,10 @@ public class FileController {
             map.put("msg", "token error");
             return map;
         }
-        String url = fileService.downloadFile(fileId);
-        if (url != null) {
-            map.put("code", 1);
-            map.put("msg", "success");
-            map.put("url", url);
-        } else {
-            map.put("code", 0);
-            map.put("msg", "fail");
-        }
+        Map<String, Object> result = fileService.downloadFile(userId, fileId);
+        map.put("code", result.get("code"));
+        map.put("msg", result.get("msg"));
+        map.put("url", result.get("url"));
         return map;
     }
 
@@ -82,15 +77,10 @@ public class FileController {
             map.put("msg", "token error");
             return map;
         }
-        String url = fileService.downloadUserFile(fileId);
-        if (url != null) {
-            map.put("code", 1);
-            map.put("msg", "success");
-            map.put("url", url);
-        } else {
-            map.put("code", 0);
-            map.put("msg", "fail");
-        }
+        Map<String, Object> result = fileService.downloadUserFile(fileId);
+        map.put("code", result.get("code"));
+        map.put("msg", result.get("msg"));
+        map.put("url", result.get("url"));
         return map;
     }
 

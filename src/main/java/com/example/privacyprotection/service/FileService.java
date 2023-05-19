@@ -5,13 +5,14 @@ import com.example.privacyprotection.VO.ShareVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FileService {
     Integer uploadFile(Integer userId, MultipartFile multipartFile, String describe, Integer type) throws Exception;
 
-    String downloadFile(Integer fileId);
+    Map<String, Object> downloadFile(Integer userId, Integer fileId);
 
-    String downloadUserFile(Integer fileId);
+    Map<String, Object> downloadUserFile(Integer fileId);
 
     Integer share(Integer userId, Integer fileId);
 

@@ -192,12 +192,12 @@ export const asyncRoutes = [
       {
         path: 'upload',
         component: () => import('@/views/blockChain/upload/index.vue'),
-        meta: {title: '智能合约上传', icon: 'el-icon-upload2', roles: ['2']}
+        meta: {title: '智能合约操作', icon: 'el-icon-upload2', roles: ['2']}
       },
       {
         path: 'option',
-        component: () => import('@/views/blockChain/option/index.vue'),
-        meta: {title: '智能合约操作', icon: 'el-icon-s-operation', roles: ['2']},
+        component: () => import('@/views/blockChain/uploadUbuntu/index.vue'),
+        meta: {title: '区块链服务器', icon: 'el-icon-s-operation', roles: ['2']},
       }
     ]
   },

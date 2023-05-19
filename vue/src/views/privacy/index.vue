@@ -179,6 +179,8 @@
 import request from "@/utils/request";
 import {getToken} from "@/utils/auth";
 import store from "@/store";
+import {MessageBox} from "element-ui";
+import {cname} from "mockjs/src/mock/random/name";
 
 export default {
   name: 'Privacy',
@@ -213,7 +215,7 @@ export default {
         {
           value: 5,
           label: '其他'
-        },
+        }
       ]
     }
   },
@@ -240,7 +242,6 @@ export default {
           fileId: fileId
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           try {
             const link = document.createElement('a')
@@ -265,6 +266,37 @@ export default {
               type: 'error'
             })
           }
+        } else if (res.code === -2) {
+          MessageBox.confirm('文件校验出错，但您可继续下载', '提示', {
+            confirmButtonText: '下载',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            try {
+              const link = document.createElement('a')
+              link.href = res.url
+              // 添加 download 属性并设置文件名
+              link.download = 'file'
+              // 将这个链接添加到页面
+              document.body.appendChild(link)
+              // 模拟鼠标点击事件
+              link.click()
+              // 移除临时元素以保持页面干净
+              document.body.removeChild(link)
+              this.$notify({
+                title: '成功',
+                message: '下载成功',
+                type: 'success'
+              })
+            } catch (e) {
+              this.$notify({
+                title: '下载失败',
+                message: e,
+                type: 'error'
+              })
+            }
+          }).catch(() => {
+          })
         } else {
           this.$notify({
             title: '下载失败',

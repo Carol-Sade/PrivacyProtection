@@ -157,6 +157,12 @@ export default {
               type: 'error'
             })
           }
+        } else if (res.code === -2) {
+          this.$notify({
+            title: '下载失败',
+            message: '文件校验出错',
+            type: 'error'
+          })
         } else {
           this.$notify({
             title: '下载失败',

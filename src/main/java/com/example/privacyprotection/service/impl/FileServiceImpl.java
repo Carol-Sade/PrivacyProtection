@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -60,27 +62,53 @@ public class FileServiceImpl implements FileService {
         } else {
             Integer code = fileMapper.insert(file);
             fileOptionService.userOption(userId, file.getId(), "上传文件");
-            fabricUtils.insert(file);
+            fabricUtils.insertFile(file);
             return code;
         }
     }
 
-    public String downloadFile(Integer fileId) {
+    public Map<String, Object> downloadFile(Integer userId, Integer fileId) {
+        Map<String, Object> map = new HashMap<>();
         File file = fileMapper.selectById(fileId);
-        if (file != null) {
-            return url + file.getFilePath();
+        if (file != null && file.getUserId().equals(userId)) {
+            int code = fabricUtils.checkHash(file);
+            if (code == 1) {
+                map.put("code", 1);
+                map.put("msg", "success");
+                map.put("url", url + file.getFilePath());
+            } else {
+                map.put("code", -2);
+                map.put("msg", "file wrong");
+                map.put("url", url + file.getFilePath());
+            }
         } else {
-            return null;
+            map.put("code", 0);
+            map.put("msg", "No file or permission");
+            map.put("url", null);
         }
+        return map;
     }
 
-    public String downloadUserFile(Integer fileId) {
+    public Map<String, Object> downloadUserFile(Integer fileId) {
+        Map<String, Object> map = new HashMap<>();
         File file = fileMapper.selectById(fileId);
         if (file != null && file.getFileState().equals(1)) {
-            return url + file.getFilePath();
+            int code = fabricUtils.checkHash(file);
+            if (code == 1) {
+                map.put("code", 1);
+                map.put("msg", "success");
+                map.put("url", url + file.getFilePath());
+            } else {
+                map.put("code", -2);
+                map.put("msg", "file wrong");
+                map.put("url", null);
+            }
         } else {
-            return null;
+            map.put("code", 0);
+            map.put("msg", "fail or not share");
+            map.put("url", null);
         }
+        return map;
     }
 
     public Integer share(Integer userId, Integer fileId) {
