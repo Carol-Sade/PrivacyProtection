@@ -7,7 +7,7 @@
           <el-input v-model="chaincodeName" placeholder="输入智能合约名称" style="width: 50%;margin-right: 10px"/>
           <el-upload
             ref="upload"
-            action="https://localhost:444/api/chaincode/uploadChaincode"
+            :action="baseUrl"
             :data="{chaincodeName:chaincodeName}"
             :limit="1"
             :on-success="uploadSuccess"
@@ -91,6 +91,7 @@ export default {
   name: 'Upload',
   data() {
     return {
+      baseUrl: this.$baseUrl + 'api/chaincode/uploadChaincode',
       list: [],
       loading: false,
       installLoading: false,

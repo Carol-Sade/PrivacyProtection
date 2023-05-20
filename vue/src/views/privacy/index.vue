@@ -14,7 +14,7 @@
           </el-select>
           <el-upload
             ref="upload"
-            action="https://localhost:444/api/file/uploadFile"
+            :action="baseUrl"
             :headers={token:token}
             :data="{describe:fileDescribe,type:value}"
             :limit="1"
@@ -186,6 +186,7 @@ export default {
   name: 'Privacy',
   data() {
     return {
+      baseUrl: this.$baseUrl + 'api/file/uploadFile',
       list: [],
       uploadLoading: false,
       loading: false,
@@ -304,8 +305,8 @@ export default {
             type: 'error'
           })
         }
+        this.loading = false
       })
-      this.loading = false
     },
     share(fileId, index) {
       request({
@@ -315,7 +316,6 @@ export default {
           fileId: fileId
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           this.$notify({
             title: '成功',
@@ -340,7 +340,6 @@ export default {
           fileId: fileId
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           this.$notify({
             title: '成功',
@@ -389,7 +388,6 @@ export default {
           fileId: fileId
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           this.$notify({
             title: '成功',

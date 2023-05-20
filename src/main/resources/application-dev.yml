@@ -38,3 +38,4 @@ upload:
   url: https://localhost:444/upload/
   avatarUrl: https://localhost:444/avatar/
   chaincodeUrl: https://localhost:444/chaincode/
+

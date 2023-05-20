@@ -197,7 +197,6 @@ export default {
           content: this.commentContent
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           this.$notify({
             title: '成功',

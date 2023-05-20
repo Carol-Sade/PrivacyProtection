@@ -62,7 +62,7 @@ public class FileServiceImpl implements FileService {
         } else {
             Integer code = fileMapper.insert(file);
             fileOptionService.userOption(userId, file.getId(), "上传文件");
-            fabricUtils.insertFile(file);
+            System.out.println(fabricUtils.insertFile(file));
             return code;
         }
     }

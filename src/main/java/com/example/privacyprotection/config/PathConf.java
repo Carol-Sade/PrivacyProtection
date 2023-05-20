@@ -1,5 +1,7 @@
 package com.example.privacyprotection.config;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.io.File;
 
 /**
@@ -23,11 +25,10 @@ public class PathConf {
     /**
      * Fabric公用路径
      */
-    // 本地测试
-    public static final String DIR = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "crypto-config" + File.separator;
-    //public static final String DIR = "/Users/parsifal/Downloads/PrivacyProtection/PrivacyProtection/src/main/resources/crypto-config/";
+    // 本地
+    // public static final String DIR = "/Users/parsifal/Downloads/PrivacyProtection/PrivacyProtection/src/main/resources/crypto-config/";
     // 部署到服务器
-    // public static final String DIR = "/root/go/src/github.com/hyperledger/fabric-samples/first-network/crypto-config/";
+    public static final String DIR = "/home/privacy/crypto-config/";
     public static final String tlsOrderFilePath = DIR + "ordererOrganizations" + File.separator + "example.com" + File.separator + "tlsca" + File.separator + "tlsca.example.com-cert.pem";
 
     /**

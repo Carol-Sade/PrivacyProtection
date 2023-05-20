@@ -106,7 +106,6 @@ export default {
             path: this.searchPath + '/' + fileName
           }
         }).then((res) => {
-          console.log(res)
           if (res.code === 1) {
             try {
               const link = document.createElement('a')

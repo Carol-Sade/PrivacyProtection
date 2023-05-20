@@ -114,7 +114,6 @@ export default {
           fileId: fileId
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           try {
             const link = document.createElement('a')
@@ -152,8 +151,8 @@ export default {
             type: 'error'
           })
         }
+        this.loading = false
       })
-      this.loading = false
     },
     sendCollect(fileId, index) {
       request({
@@ -163,7 +162,6 @@ export default {
           fileId: fileId
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           this.$notify({
             title: '成功',
@@ -209,7 +207,6 @@ export default {
           content: this.commentContent
         }
       }).then((res) => {
-        console.log(res)
         if (res.code === 1) {
           this.$notify({
             title: '成功',

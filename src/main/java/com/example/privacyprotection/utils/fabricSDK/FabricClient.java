@@ -197,10 +197,12 @@ public class FabricClient {
             if (response.getStatus().getStatus() == 200) {
                 log.info("{} invoke proposal {} sucess", response.getPeer().getName(), funcName);
                 result = "{" + response.getPeer().getName() + "} invoke proposal {" + funcName + "} sucess";
+                System.out.println(result);
             } else {
                 String[] logArgs = {response.getMessage(), funcName, response.getPeer().getName()};
                 log.error("{} invoke proposal {} fail on {}", logArgs);
                 result = "{" + logArgs[0] + "} invoke proposal {" + logArgs[1] + "} fail on {" + logArgs[2] + "}";
+                System.out.println(result);
             }
         }
         channel.sendTransaction(responses);

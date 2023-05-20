@@ -5,7 +5,7 @@
       <el-form-item label="选择头像">
         <el-upload
           class="avatar-uploader"
-          action="https://localhost:444/api/user/resetAvatar"
+          :action="baseUrl"
           :headers="{token:getToken()}"
           :show-file-list="false"
           accept=".jpg,.png"
@@ -93,6 +93,7 @@ export default {
       }
     }
     return {
+      baseUrl: this.$baseUrl + 'api/user/resetAvatar',
       imageUrl: '',
       usernameForm: {
         username: ''

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://82.156.56.191/pet?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://8.130.79.250/privacy?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: Sj2000617!
     driver-class-name: com.mysql.jdbc.Driver
@@ -14,23 +14,30 @@ spring:
       enabled: true
       max-file-size: 20MB
       max-request-size: 20MB
+  redis:
+    host: 8.130.79.250
+    port: 6379
+    database: 0
+    password: Sj2000617!
   #  swagger配置
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
 
 server:
   port: 444
   ssl:
-    key-store: classpath:lldt.ltd.jks
-    key-store-password: ktp086j7b1bpd6g
+    key-store: classpath:jason21.top.jks
+    key-store-password: 6dncpu83
     key-store-type: JKS
 
 upload:
-  location: /home/lldt/upload/
-  avatarLocation: /home/lldt/avatar/
-  url: https://lldt.ltd:444/upload/
-  avatarUrl: https://lldt.ltd:444/avatar/
+  location: /home/privacy/upload/
+  avatarLocation: /home/privacy/avatar/
+  chaincodeLocation: /home/PrivacyProtection/chaincode/src/
+  url: https://jason21.top:444/upload/
+  avatarUrl: https://jason21.top:444/avatar/
+  chaincodeUrl: https://jason21.top:444/chaincode/
 
 # 输出sql
 #mybatis-plus:
