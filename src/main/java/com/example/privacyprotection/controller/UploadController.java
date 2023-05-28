@@ -24,10 +24,10 @@ import java.util.*;
 @RequestMapping("api/upload")
 public class UploadController {
 
-    String host = "8.130.79.250"; // SFTP 主机名
+    String host = "47.113.196.57"; // SFTP 主机名
     int port = 22; // SFTP 端口号
     String username = "root"; // SFTP 用户名
-    String password = "Sj2000617"; // SFTP 密码
+    String password = "Azxcvbnm1603"; // SFTP 密码
 
     @Value("${upload.location}")
     private String location;
