@@ -3,6 +3,7 @@ package com.example.privacyprotection.service.impl;
 import com.example.privacyprotection.entity.User;
 import com.example.privacyprotection.mapper.UserMapper;
 import com.example.privacyprotection.service.UserService;
+import com.example.privacyprotection.utils.FabricUtils;
 import com.example.privacyprotection.utils.JWTUtils;
 import com.example.privacyprotection.utils.MD5;
 import com.example.privacyprotection.utils.UploadFile;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +32,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UploadFile uploadFile;
 
+    @Autowired
+    private FabricUtils fabricUtils;
+
     @Value("${upload.avatarUrl}")
     private String avatarUrl;
 
@@ -42,7 +47,15 @@ public class UserServiceImpl implements UserService {
         try {
             User user = userMapper.checkUsername(username);
             if (user == null) {
-                userMapper.register(username, md5.MD5Encode(password), "guest.png");
+                User registerUser = new User();
+                registerUser.setId(0);
+                registerUser.setUsername(username);
+                registerUser.setPassword(md5.MD5Encode(password));
+                registerUser.setAvatar("guest.png");
+                registerUser.setRole(1);
+                registerUser.setCreate_time(new Timestamp((System.currentTimeMillis())));
+                userMapper.insert(registerUser);
+                fabricUtils.insertUser(registerUser);
                 map.put("code", 1);
                 map.put("msg", "success");
             } else {

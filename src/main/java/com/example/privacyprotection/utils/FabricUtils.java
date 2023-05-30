@@ -1,6 +1,7 @@
 package com.example.privacyprotection.utils;
 
 import com.example.privacyprotection.entity.File;
+import com.example.privacyprotection.entity.User;
 import com.example.privacyprotection.utils.fabricSDK.FabricSDK;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,6 +81,30 @@ public class FabricUtils {
                                     "\"fileDescribe\":\"" + file.getFileDescribe() + "\"," +
                                     "\"fileHash\":\"" + file.getFileHash() + "\"," +
                                     "\"CreateTime\":\"" + file.getCreateTime() + "\"}"
+                    };
+            boolean code = fabricSDK.invoke(initArgsInvoke);
+            if (code) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public Integer insertUser(User user) {
+        try {
+            FabricSDK fabricSDK = new FabricSDK("user", "mychannel");
+            String[] initArgsInvoke =
+                    {user.getId().toString(),
+                            "{\"userId\":\"" + user.getId() + "\"," +
+                                    "\"name\":\"" + "user" + "\"," +
+                                    "\"roles\":\"" + user.getRole() + "\"," +
+                                    "\"account\":\"" + user.getUsername() + "\"," +
+                                    "\"affiliation\":\"" + "Org1" + "\"," +
+                                    "\"mspId\":\"" + "Org1MSP" + "\"," +
+                                    "\"CreateTime\":\"" + user.getCreate_time() + "\"}"
                     };
             boolean code = fabricSDK.invoke(initArgsInvoke);
             if (code) {

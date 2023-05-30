@@ -1,5 +1,7 @@
 package com.example.privacyprotection.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import java.sql.Timestamp;
 public class User {
 
     @Id
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String username;
     private String password;
