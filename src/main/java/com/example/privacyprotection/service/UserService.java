@@ -1,13 +1,10 @@
 package com.example.privacyprotection.service;
 
-import com.example.privacyprotection.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Map;
 
 public interface UserService {
-    List<User> getUsers();
 
     Map<String, Object> register(String username, String password);
 

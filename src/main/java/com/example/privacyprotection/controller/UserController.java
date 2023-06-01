@@ -1,6 +1,5 @@
 package com.example.privacyprotection.controller;
 
-import com.example.privacyprotection.entity.User;
 import com.example.privacyprotection.service.UserService;
 import com.example.privacyprotection.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -20,11 +18,6 @@ public class UserController {
 
     @Autowired
     private JWTUtils jwtUtils;
-
-    @GetMapping("getUsers")
-    public List<User> getUsers() {
-        return userService.getUsers();
-    }
 
     @GetMapping("register")
     public Map<String, Object> register(@RequestParam String username,

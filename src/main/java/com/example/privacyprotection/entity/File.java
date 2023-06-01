@@ -22,4 +22,5 @@ public class File {
     private String filePath;
     private String fileHash;
     private Timestamp createTime;
+    private Timestamp updateTime;
 }

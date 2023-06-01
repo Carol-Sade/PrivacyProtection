@@ -36,6 +36,9 @@ public class UploadFile {
     @Autowired
     private PictureCompression pictureCompression;
 
+    /**
+     * 上传文件
+     */
     public String uploadFile(MultipartFile multipartFile) throws Exception {
         String filePath = "";
         String realPath = location;
@@ -61,11 +64,12 @@ public class UploadFile {
             }
 
             byte[] bytes;
-            if (kzm.equals(".png") || kzm.equals(".jpg") || kzm.equals(".jpeg") || kzm.equals(".gif")) {
-                bytes = pictureCompression.compressPicForScale(multipartFile.getBytes(), 500);
-            } else {
-                bytes = multipartFile.getBytes();
-            }
+//            if (kzm.equals(".png") || kzm.equals(".jpg") || kzm.equals(".jpeg") || kzm.equals(".gif")) {
+//                bytes = pictureCompression.compressPicForScale(multipartFile.getBytes(), 500);
+//            } else {
+//                bytes = multipartFile.getBytes();
+//            }
+            bytes = multipartFile.getBytes();
             String filename = hexString + kzm;
             File file1 = new File(realPath + filename);
             OutputStream out = new FileOutputStream(file1);
@@ -76,6 +80,9 @@ public class UploadFile {
         return filePath;
     }
 
+    /**
+     * 上传头像
+     */
     public String uploadAvatar(MultipartFile multipartFile) throws Exception {
         String filePath = "";
         String realPath = avatarLocation;
@@ -101,6 +108,9 @@ public class UploadFile {
         return filePath;
     }
 
+    /**
+     * 上传智能合约
+     */
     public String uploadChaincode(MultipartFile multipartFile, String chaincodeName) {
         try {
             String realPath = chaincodeLocation + chaincodeName + "/";

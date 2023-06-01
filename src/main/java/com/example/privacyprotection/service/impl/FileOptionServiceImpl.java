@@ -48,6 +48,11 @@ public class FileOptionServiceImpl implements FileOptionService {
         return optionList;
     }
 
+    /**
+     * 获取管理员文件操作
+     * @param userId
+     * @return
+     */
     public List<OptionVO> getAdminOptions(Integer userId) {
         List<OptionVO> optionList = fileOptionMapper.getOptions(userId);
         List<OptionVO> optionVOList = new ArrayList<>();
@@ -62,6 +67,11 @@ public class FileOptionServiceImpl implements FileOptionService {
         return optionVOList;
     }
 
+    /**
+     * 获取管理员审核操作
+     * @param userId
+     * @return
+     */
     public List<OptionVO> getExamineOptions(Integer userId) {
         List<OptionVO> optionList = fileOptionMapper.getExamineOptions(userId);
         List<OptionVO> optionVOList = new ArrayList<>();

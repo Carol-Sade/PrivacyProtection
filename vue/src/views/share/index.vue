@@ -18,7 +18,7 @@
           <div v-else-if="scope.row.type===4">视频</div>
           <div v-else-if="scope.row.type===5">其他</div>
         </el-table-column>
-        <el-table-column prop="createTime" label="收藏时间" width="160"/>
+        <el-table-column prop="createTime" label="发布时间" width="160"/>
 
         <el-table-column #default="scope" label="操作" width="180">
           <el-popconfirm title="确认下载？" confirm-button-text="是" cancel-button-text="否"

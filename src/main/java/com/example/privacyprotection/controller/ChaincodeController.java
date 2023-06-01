@@ -25,6 +25,12 @@ public class ChaincodeController {
     @Autowired
     private FabricUtils fabricUtils;
 
+    /**
+     * 上传智能合约
+     * @param multipartFile
+     * @param chaincodeName
+     * @return
+     */
     @PostMapping("uploadChaincode")
     private Map<String, Object> uploadChaincode(@RequestParam("file") MultipartFile multipartFile,
                                                 @RequestParam String chaincodeName) {
@@ -41,6 +47,11 @@ public class ChaincodeController {
         return map;
     }
 
+    /**
+     * 下载智能合约
+     * @param chaincodeId
+     * @return
+     */
     @GetMapping("downloadChaincode")
     private Map<String, Object> downloadChaincode(@RequestParam Integer chaincodeId) {
         Map<String, Object> map = new HashMap<>();
@@ -61,6 +72,11 @@ public class ChaincodeController {
         return map;
     }
 
+    /**
+     * 删除智能合约
+     * @param chaincodeId
+     * @return
+     */
     @GetMapping("deleteChaincode")
     private Map<String, Object> deleteChaincode(@RequestParam Integer chaincodeId) {
         Map<String, Object> map = new HashMap<>();
@@ -80,6 +96,10 @@ public class ChaincodeController {
         return map;
     }
 
+    /**
+     * 获取智能合约列表
+     * @return
+     */
     @GetMapping("getChaincode")
     private Map<String, Object> getChaincode() {
         Map<String, Object> map = new HashMap<>();
@@ -94,6 +114,12 @@ public class ChaincodeController {
         return map;
     }
 
+    /**
+     * 安装智能合约
+     * @param chaincodeName
+     * @param chaincodeVersion
+     * @return
+     */
     @GetMapping("installChaincode")
     private Map<String, Object> installChaincode(@RequestParam String chaincodeName,
                                                  @RequestParam String chaincodeVersion) {
@@ -110,6 +136,12 @@ public class ChaincodeController {
         return map;
     }
 
+    /**
+     * 实例化智能合约
+     * @param chaincodeName
+     * @param chaincodeVersion
+     * @return
+     */
     @GetMapping("instantiateChaincode")
     private Map<String, Object> instantiateChaincode(@RequestParam String chaincodeName,
                                                      @RequestParam String chaincodeVersion) {
@@ -126,6 +158,12 @@ public class ChaincodeController {
         return map;
     }
 
+    /**
+     * 升级智能合约
+     * @param chaincodeName
+     * @param chaincodeVersion
+     * @return
+     */
     @GetMapping("upgradeChaincode")
     private Map<String, Object> upgradeChaincode(@RequestParam String chaincodeName,
                                                  @RequestParam String chaincodeVersion) {

@@ -79,6 +79,16 @@
           <el-button type="primary" plain @click="instantiate">安装</el-button>
         </div>
       </el-form-item>
+
+      <el-form-item label="升级合约">
+        <div style="display: flex ;align-items: center">
+          <el-input v-model="chaincodeNameUpgrade" placeholder="输入合约名称"
+                    style="width: 50% ;margin-right: 10px"/>
+          <el-input v-model="chaincodeVersionUpgrade" placeholder="输入合约版本号"
+                    style="width: 20% ;margin-right: 10px"/>
+          <el-button type="primary" plain @click="upgrade">安装</el-button>
+        </div>
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -96,11 +106,14 @@ export default {
       loading: false,
       installLoading: false,
       instantiateLoading: false,
+      upgradeLoading: false,
       chaincodeName: '',
       chaincodeNameInstall: '',
       chaincodeVersionInstall: '',
       chaincodeNameInstantiate: '',
-      chaincodeVersionInstantiate: ''
+      chaincodeVersionInstantiate: '',
+      chaincodeNameUpgrade: '',
+      chaincodeVersionUpgrade: ''
     }
   },
   mounted() {
@@ -278,6 +291,33 @@ export default {
       })
       this.search()
       this.instantiateLoading = false
+    },
+    upgrade() {
+      this.upgradeLoading = true
+      request({
+        method: 'get',
+        url: '/api/chaincode/upgradeChaincode',
+        params: {
+          chaincodeName: this.chaincodeNameUpgrade,
+          chaincodeVersion: this.chaincodeVersionUpgrade
+        }
+      }).then((res) => {
+        if (res.code === 1) {
+          this.$notify({
+            title: '成功',
+            message: '升级成功',
+            type: 'success'
+          })
+        } else {
+          this.$notify({
+            title: '失败',
+            message: res.msg,
+            type: 'error'
+          })
+        }
+      })
+      this.search()
+      this.upgradeLoading = false
     }
   }
 }

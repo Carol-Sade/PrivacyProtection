@@ -44,6 +44,15 @@ public class FileServiceImpl implements FileService {
     @Value("${upload.avatarUrl}")
     private String avatarUrl;
 
+    /**
+     * 上传文件
+     * @param userId
+     * @param multipartFile
+     * @param describe
+     * @param type
+     * @return
+     * @throws Exception
+     */
     public Integer uploadFile(Integer userId, MultipartFile multipartFile, String describe, Integer type) throws Exception {
         File file = new File();
         file.setId(0);
@@ -67,6 +76,12 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    /**
+     * 下载用户文件
+     * @param userId
+     * @param fileId
+     * @return
+     */
     public Map<String, Object> downloadFile(Integer userId, Integer fileId) {
         Map<String, Object> map = new HashMap<>();
         File file = fileMapper.selectById(fileId);
@@ -89,6 +104,11 @@ public class FileServiceImpl implements FileService {
         return map;
     }
 
+    /**
+     * 下载共享文件
+     * @param fileId
+     * @return
+     */
     public Map<String, Object> downloadUserFile(Integer fileId) {
         Map<String, Object> map = new HashMap<>();
         File file = fileMapper.selectById(fileId);
@@ -111,6 +131,12 @@ public class FileServiceImpl implements FileService {
         return map;
     }
 
+    /**
+     * 共享文件
+     * @param userId
+     * @param fileId
+     * @return
+     */
     public Integer share(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null && file.getUserId().equals(userId)) {
@@ -123,6 +149,12 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    /**
+     * 软删除文件
+     * @param userId
+     * @param fileId
+     * @return
+     */
     public Integer deleteFile(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null && file.getUserId().equals(userId)) {
@@ -135,6 +167,12 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    /**
+     * 取消共享
+     * @param userId
+     * @param fileId
+     * @return
+     */
     public Integer cancelShare(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null && file.getUserId().equals(userId)) {
@@ -147,6 +185,12 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    /**
+     * 恢复文件
+     * @param userId
+     * @param fileId
+     * @return
+     */
     public Integer restore(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null && file.getUserId().equals(userId)) {
@@ -159,6 +203,12 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    /**
+     * 完全删除文件
+     * @param userId
+     * @param fileId
+     * @return
+     */
     public Integer deleteAbsolutely(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null && file.getUserId().equals(userId)) {
@@ -168,6 +218,12 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    /**
+     * 审核删除文件
+     * @param userId
+     * @param fileId
+     * @return
+     */
     public Integer examineDelete(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null) {
@@ -180,6 +236,12 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    /**
+     * 审核恢复文件
+     * @param userId
+     * @param fileId
+     * @return
+     */
     public Integer examineRestore(Integer userId, Integer fileId) {
         File file = fileMapper.selectById(fileId);
         if (file != null) {
@@ -192,6 +254,11 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    /**
+     * 获取个人上传文件列表
+     * @param userId
+     * @return
+     */
     public List<MyFileVO> getMyFiles(Integer userId) {
         List<MyFileVO> fileList = fileMapper.getMyFiles(userId);
         for (MyFileVO myFileVO : fileList) {
@@ -200,6 +267,10 @@ public class FileServiceImpl implements FileService {
         return fileList;
     }
 
+    /**
+     * 获取共享文件列表
+     * @return
+     */
     public List<ShareVO> getShare() {
         List<ShareVO> shareList = fileMapper.getShare();
         for (ShareVO shareVO : shareList) {
@@ -209,6 +280,10 @@ public class FileServiceImpl implements FileService {
         return shareList;
     }
 
+    /**
+     * 获取审核列表
+     * @return
+     */
     public List<ShareVO> getExamine() {
         List<ShareVO> shareList = fileMapper.getExamine();
         for (ShareVO shareVO : shareList) {
@@ -218,6 +293,11 @@ public class FileServiceImpl implements FileService {
         return shareList;
     }
 
+    /**
+     * 搜索共享文件
+     * @param key
+     * @return
+     */
     public List<ShareVO> searchShare(String key) {
         List<ShareVO> shareList = fileMapper.searchShare(key);
         for (ShareVO shareVO : shareList) {

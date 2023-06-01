@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -38,10 +37,12 @@ public class UserServiceImpl implements UserService {
     @Value("${upload.avatarUrl}")
     private String avatarUrl;
 
-    public List<User> getUsers() {
-        return userMapper.getUsers();
-    }
-
+    /**
+     * 用户注册
+     * @param username
+     * @param password
+     * @return
+     */
     public Map<String, Object> register(String username, String password) {
         Map<String, Object> map = new HashMap<>();
         try {
@@ -69,6 +70,12 @@ public class UserServiceImpl implements UserService {
         return map;
     }
 
+    /**
+     * 用户登录
+     * @param username
+     * @param password
+     * @return
+     */
     public Map<String, Object> login(String username, String password) {
         Map<String, Object> map = new HashMap<>();
         User user = userMapper.getUserByUsername(username);
@@ -89,12 +96,22 @@ public class UserServiceImpl implements UserService {
         return map;
     }
 
+    /**
+     * 退出登录
+     * @param token
+     * @return
+     */
     public Map<String, Object> logout(String token) {
         Map<String, Object> map = new HashMap<>();
         map.put("code", jwtUtils.cleanToken(token));
         return map;
     }
 
+    /**
+     * 获取用户信息
+     * @param token
+     * @return
+     */
     public Map<String, Object> getUserInfo(String token) {
         Map<String, Object> map = new HashMap<>();
         int id = jwtUtils.checkToken(token);
