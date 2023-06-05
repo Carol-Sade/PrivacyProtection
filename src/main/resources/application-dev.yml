@@ -32,10 +32,10 @@ server:
     key-store-type: JKS
 
 upload:
-  location: /Users/parsifal/Downloads/PrivacyProtection/upload/
-  avatarLocation: /Users/parsifal/Downloads/PrivacyProtection/avatar/
-  chaincodeLocation: /Users/parsifal/Downloads/PrivacyProtection/chaincode/src/
-  url: https://localhost:444/upload/
-  avatarUrl: https://localhost:444/avatar/
-  chaincodeUrl: https://localhost:444/chaincode/
+  location: /Users/parsifal/Downloads/PrivacyProtection/upload/ # 文件存储路径
+  avatarLocation: /Users/parsifal/Downloads/PrivacyProtection/avatar/ # 头像存储路径
+  chaincodeLocation: /Users/parsifal/Downloads/PrivacyProtection/chaincode/src/ # 链码存储路径
+  url: https://localhost:444/upload/ # 文件访问前缀
+  avatarUrl: https://localhost:444/avatar/ # 头像访问前缀
+  chaincodeUrl: https://localhost:444/chaincode/ # 链码访问前缀
 

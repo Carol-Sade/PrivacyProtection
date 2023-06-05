@@ -1,15 +1,10 @@
 package com.example.privacyprotection.config;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import java.io.File;
 
 /**
  * <h3>FileManage</h3>
  * <p>包含所有绝对路径 以便以后修改</p>
- *
- * @author : sugar without coffee
- * @date : 2020-04-11 12:38
  **/
 public class PathConf {
 

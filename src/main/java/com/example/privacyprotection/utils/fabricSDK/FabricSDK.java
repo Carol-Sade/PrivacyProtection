@@ -13,8 +13,6 @@ import static com.example.privacyprotection.config.PathConf.*;
 
 /**
  * FabricSDK：在以后使用的时候直接实例化即可
- *
- * @author : sugar without coffee
  */
 public class FabricSDK {
 
